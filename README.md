@@ -2,7 +2,7 @@
 
 -- A stock buy/sell simulator Application
 
-Writting front to back in the JavaScript Stack..
+Written front to back in the Mean Stack..
 
 BackEnd - MongoDB
 Server - Express.JS
