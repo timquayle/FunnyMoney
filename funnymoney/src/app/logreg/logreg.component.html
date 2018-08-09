@@ -1,0 +1,43 @@
+<div *ngIf="!regFlag" class="login">
+  <form (submit)="onLogin($event,logForm)"  #logForm='ngForm'  >
+      <label for="emailidl"> Email</label><input type="text" name="email" id="emailidl"
+               [ngModel]="emailidl" 
+              required
+              #email="ngModel">
+              <label for="passwdl"> Password</label><input type="password" name="password" id="passwdl"
+              [ngModel]="passwdl" 
+              required
+              #password="ngModel">
+              <div *ngIf="badlogin" class="errormsg" >Invalid Credentials</div>
+              <div *ngIf="badlogin_5times" class="errormsg" >Max Attempts to login exceeded, username locked out for 1 hour</div>
+              <button>Login</button>
+      </form>
+     <p> Dont have an Account?<a href (click)="regUser($event)">Register</a></p>
+     </div>
+     <div *ngIf="regFlag" class="register">
+      <form  (submit)="onReg($event,regForm)"  #regForm='ngForm'>
+          <label for="fname"> First Name</label><input type="text" name="firstname" id="fname"
+          [ngModel]="fname" 
+          required
+          #firstname="ngModel">
+         <label for="lname"> Last Name</label><input type="text" name="lastname" id="lname"
+         [ngModel]="lname" 
+         required
+         #lastname="ngModel">
+          <label for="emailid"> Email</label><input type="text" name="email" id="emailid"
+           [ngModel]="emailid" 
+          required
+          #email="ngModel">
+          <label for="password"> Password</label><input type="password" name="password" id="passwd"
+          [ngModel]="passwd" 
+          required
+          #password="ngModel">
+          <div *ngIf="passShort" class="errormsg" >Password must contain at least 8 characters</div>
+          <label for="cpassword">Confirmation Password</label><input type="password" name="cpassword" id="cpasswd"
+          [ngModel]="cpasswd" 
+          required
+          #cpassword="ngModel">
+          <div *ngIf="passmm" class="errormsg" >Password must match conformation password</div>
+          <button [disabled]="!regForm.valid">Register</button>
+          </form>
+          </div> 

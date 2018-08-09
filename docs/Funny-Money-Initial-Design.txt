@@ -1,0 +1,63 @@
+Funny Money
+
+Multi-player Stock trading simulator "game".
+
+1. You are given $100,000.
+2. You choose 10 Stock symbols to invest your money into.
+3. Everyday your gains and losses are tallied.
+4. Your score is your profit.
+
+
+
+Pages
+1. Login/Registation Page
+2. DIsplay Game Rules/Objectives
+3. Stock Pick Page
+  A) User is prompted to pick 10 Stocks(By Symbol)
+4. User is redirected to Homepage which displays: 
+     A) Stock Picks
+     B) Buy Price
+     C) Current Price 
+     D) Net profit/loss
+5. From Homepage user can navigate to leaderboard page 
+     A) Shows Usernames/Net Score($$$$)
+6. From Homepage user can navigate to stock Aquire/Dump Page
+     A) When Stock is dumped total net/profit of stock is displayed.
+
+Components
+User Registration 
+Login
+Initial_stock_picker
+Homepage (stock_display)
+Leaderboard
+Aquisition/Deprecation Page
+
+
+
+Models
+User Model 
+
+username(email)
+Firstname
+lastname
+password
+
+stock_portfolio
+
+stock symbol
+stock buyprice
+stock purchase_amount
+(username_id)
+
+m2m tally_table
+(username_id)
+(stock_id)
+(buyprice)
+(#of stocks)
+close_price
+(netgain_loss)
+
+
+
+
+

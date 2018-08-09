@@ -1,0 +1,9 @@
+trade.it -free - no actual trading
+https://www.trade.it/documentation?gclid=EAIaIQobChMIz6K55L_82wIViVt-Ch08awIWEAAYAyAAEgLDNfD_BwE
+ameritrade  timquayle/123Rat123
+https://www.tdameritrade.com/api.page
+
+https://intrinio.com/
+
+https://www.alphavantage.co/
+key: 614CAY3S4WQVWX15

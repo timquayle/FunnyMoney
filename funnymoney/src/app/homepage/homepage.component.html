@@ -1,0 +1,44 @@
+<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaders']">Leaderboard</a>  <a href (click)="logOff($event)">Log Off</a>  </p>
+<form (submit)="symSubmit($event,symForm)"  #symForm='ngForm'>
+<p>Symbol:<input type="text" name="symb" id="symbid"
+  [ngModel]="symbid" 
+ required
+ #symb="ngModel"></p>
+<Button>Submit</Button>
+</form>
+<div *ngIf(responseError)>Stock Symbol not found!</div>
+<div *ngIf="validResponse">
+<form (submit)="buyStock($event,buyForm)" #buyForm='ngForm'>
+<h1>Current Price: {{stock.buyprice|currency}}</h1>
+<p>Amount: <input type="number" name="amount" id="amountid"
+  [ngModel]="stock.amount"
+  required
+  #amount="ngModel">
+ <input type="hidden" name="buyprice" id="priceid" value="{{stock.buyprice}}" [ngModel]="stock.buyprice" #buyprice="ngModel">
+ <input type="hidden" name="symbol" id="symbolid"  value="{{stock.symbol}}" [ngModel]="stock.symbol" #symbol="ngModel">
+  <button>Buy This Stock</button>
+</form>
+ 
+</div>
+<button (click)="getSymbols()">Getallsymbols</button>
+<button (click)="getSymbolsValues()">GetallsymbolsValues</button>
+<button (click)="gainsLosses()">Calculate Gains/losses</button>
+<button (click)="getusergnl()">Get users daily GnL</button>
+<div *ngFor="let daily of daily_totals">
+<p>{{daily.date}} - {{daily.symbol}} - Gain/Loss: {{daily.netgnl| currency}} </p>
+
+</div>
+<form (submit)="findSym($event,findsym)" #findsym='ngForm'>
+<input type ="text" name="sym" id="symid" [ngModel]="symid" required #sym="ngModel">
+<button>Find Symbol</button>
+
+
+</form>
+<div *ngIf="notfound">Symbol not found!</div>
+<div *ngIf="!notfound">
+<div *ngFor="let sym of sym_data?.symbols">
+  <h1>Symbol: {{sym.symbol}}</h1>
+  <h1>Security Name: {{sym.securityName}}</h1>
+  <button>Find Current Buy Price?</button>
+</div>
+</div>
