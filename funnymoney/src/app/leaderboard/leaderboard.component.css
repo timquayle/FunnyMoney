@@ -1,0 +1,25 @@
+.profile{
+    height:150px;
+    width:500px;
+    border: 2px solid black;
+}
+.rank{
+    width:20px;
+    height:100px;
+    display:inline-block;
+}
+.score{
+    width:100px;
+    height:100px;
+    display:inline-block;
+    vertical-align:top;
+    margin-left:250px;
+}
+.leaders{
+    width: 700px;
+    height: 500px;
+    overflow: scroll;
+}
+a{
+    margin-left:10px;
+}

@@ -6,6 +6,10 @@ import {HttpClient}from  '@angular/common/http';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+  getUsers() :any {
+    console.log("INSERVice getting all users")
+    return this.http.get('/getallusers');
+  }     
   removeSessionid() :any {
     console.log("INSERVICE removing sessionId")
     return this.http.get('/removesessionid/');

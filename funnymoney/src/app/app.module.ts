@@ -8,11 +8,15 @@ import { LogregComponent } from './logreg/logreg.component';
 import { FormsModule } from '@angular/forms';
 import {HttpClientModule}from  '@angular/common/http';
 import { HomepageComponent } from './homepage/homepage.component';
+import { LeaderboardComponent } from './leaderboard/leaderboard.component';
+import { HistoryComponent } from './history/history.component';
 @NgModule({
   declarations: [
     AppComponent,
     LogregComponent,
-    HomepageComponent
+    HomepageComponent,
+    LeaderboardComponent,
+    HistoryComponent
   ],
   imports: [
     BrowserModule,

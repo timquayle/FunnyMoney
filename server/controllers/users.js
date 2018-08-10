@@ -229,4 +229,17 @@ getcontact: function(req,res) {
                   res.json('session removed')
                 },
        
-    }
+ usersgetall: function(req,res){
+    console.log("getting all users!")
+    Users.find({}, function(err, users) {
+     if(err){
+         res.json(err)
+     }
+     else{
+        console.log("USERS:",users);
+        res.json(users);
+     }
+     })
+ },
+ 
+            }

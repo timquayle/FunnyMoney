@@ -33,6 +33,14 @@ module.exports = {
 
 
   }, 
+  getalluserGnl(req, res){
+    console.log("getting stock history/controller")
+    DailyGnL.find({userid: req.session.userid} )
+      .then(allgnls => res.json(allgnls))
+      .catch(console.log);
+  
+  }, 
+ 
   getuserDailygnl(req, res){
     DailyGnL.find(  {$and: [ {'userid':  req.params.id},{ 'date': req.params.date }  ] } )
       .then(dailytot => res.json(dailytot))

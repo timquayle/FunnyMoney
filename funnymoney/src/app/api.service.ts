@@ -18,6 +18,10 @@ return this.http.get(' https://www.alphavantage.co/query?function=TIME_SERIES_IN
 // return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&outputsize=compact&apikey=' + apikey + '&datatype=json');
 }
 
+getallUsergnl(): Observable<any[]> {
+  console.log('inservice getting a users gains and losses');
+  return this.http.get<any[]>('/getallusergnl');
+}
 updateDailytotals(stock){
   console.log('inservice updating totals', stock);
   return this.http.post('/updatedailytotals',stock)

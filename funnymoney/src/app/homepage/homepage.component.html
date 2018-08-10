@@ -1,4 +1,5 @@
-<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaders']">Leaderboard</a>  <a href (click)="logOff($event)">Log Off</a>  </p>
+
+<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
 <form (submit)="symSubmit($event,symForm)"  #symForm='ngForm'>
 <p>Symbol:<input type="text" name="symb" id="symbid"
   [ngModel]="symbid" 
@@ -41,4 +42,11 @@
   <h1>Security Name: {{sym.securityName}}</h1>
   <button>Find Current Buy Price?</button>
 </div>
+</div>
+<H1>My Current Stocks </H1>
+<div *ngFor="let mystock of mystocks">
+<p>{{mystock.symbol}} - Amount:{{mystock.amount}} - BuyPrice: {{mystock.buyprice}}</p>
+
+
+
 </div>

@@ -4,7 +4,12 @@ const stocks= require('../controllers/stocks.js')
 
 const path = require('path');
 module.exports = function(app) {
-  
+  app.get('/getallusers',(req, res, next) =>{
+    console.log('we are getting all users');
+   users.usersgetall(req, res);
+  })
+
+
   app.get('/removesessionid',(req, res, next) =>{
     console.log('we are removing the session id');
    users.removesessionid(req, res);
@@ -34,6 +39,10 @@ module.exports = function(app) {
     stocks.updateDailytotals(req, res);
   })
 
+    app.get('/getallusergnl',(req, res, next) =>{
+    console.log('we are getting a users daily  gains n losses');
+   stocks.getalluserGnl(req, res);
+  })
 
   app.post('/buystock', (req, res, next) =>{
     

@@ -17,7 +17,7 @@ const apikey= "614CAY3S4WQVWX15";
 //│    └──────────────────── minute (0 - 59)
 //└───────────────────────── second (0 - 59, OPTIONAL)
 
-//scheduled job, will run at 4:30pm PST and get all daily closing values for all stocks in the syste, and store them in dailytotal table
+//scheduled job, will run at 4:30pm PST and get all daily closing values for all stocks in the system, and store them in dailytotal table
 module.exports = function(app) {
 dailyclosing = schedule.scheduleJob('30 16 * * *', function(){
 //1 get all the symbols in the system
@@ -55,7 +55,7 @@ Stocks.find({},{symbol: 1})
 })
 
 //scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
-const gnlcalc = schedule.scheduleJob('0 17 * * *', function(){
+const gnlcalc = schedule.scheduleJob('30 17 * * *', function(){
   console.log('The answer to life, the universe, and everything!');
   //0 get all userids in the system
   Users.find({},{userid: 1})
@@ -68,7 +68,13 @@ const gnlcalc = schedule.scheduleJob('0 17 * * *', function(){
     .then(stocks =>{ let user_stocks=stocks;
          console.log("FOUNDSTOCKS:",user_stocks);
           //2.get our daily tally totals for every stock symbol in the system
-         Daily.find({},{})
+          //this is a buggy approach, what about holidays? should use last refreshed value
+          var d = new Date();
+          let todaysdate = d.getFullYear();
+          todaysdate = todaysdate  + '-' + '0' + (d.getMonth() +1);
+          todaysdate = todaysdate  + '-' + '0' +  d.getDate();
+          console.log("-----TODAY'S DATE----",todaysdate);
+          Daily.find({date: todaysdate},{})
          .then(dailytot =>{   const daily_totals=dailytot;    console.log("ALLStoX",daily_totals)
   //3. Loop through users stock, writing each gains and losses data into dailygnl table
          user_stocks.forEach( 
@@ -79,8 +85,15 @@ const gnlcalc = schedule.scheduleJob('0 17 * * *', function(){
                 //     4. store each gain or loss value in the DailyGNL table
                                 const dailygnl = new DailyGnL({userid: gnl.userid, symbol: gnl.symbol,netgnl: gnl.netgnl, date: gnl.date })
                             DailyGnL.create(dailygnl)
-                          .then(dailygnl=> console.log("created a new GNL entry",dailygnl))  //5 collect all dailGnL's, add them up and add them to users "score"
-                           .catch(console.log);
+                          .then(dailygnl=>{ console.log("created a new GNL entry",dailygnl)
+                        //5 collect all dailyGnL's, add them up and add them to users "score"
+                       
+                        Users.findOneAndUpdate({_id: dailygnl.userid }, {$inc: {score: gnl.netgnl}}, function (err, user) {
+                          if (err) {console.log("updateError",err);}
+                          else {console.log("UPDATED",user)}
+                        })                        
+                      })
+                          .catch(console.log);
 
                              })
 

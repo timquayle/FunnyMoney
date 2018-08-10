@@ -21,10 +21,16 @@ export class HomepageComponent implements OnInit {
   sym_data;
   notfound=false;
   daily_total = [];
+  mystocks = [];
  constructor(private apiService: ApiService) { }
 
   ngOnInit() {
+    let o = this.apiService.getusersStock();
+    o.subscribe( (response) =>{ this.mystocks = response;
+      console.log("all my stox",this.mystocks);
   
+  }
+    )
 }
   symSubmit(event: Event,form: NgForm){
   event.preventDefault();
