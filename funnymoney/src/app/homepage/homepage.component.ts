@@ -120,7 +120,8 @@ console.log("CONFIRM?",confirm);
                    let o3 = this.apiService.getusersStock();
                    o3.subscribe( (response) =>{ this.mystocks = response;
                      console.log("all my stox",this.mystocks);   
-                       })
+                 this.buystock=false;
+                    })
                     })
                   })
                   

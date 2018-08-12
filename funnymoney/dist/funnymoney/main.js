@@ -510,6 +510,7 @@ var HomepageComponent = /** @class */ (function () {
                         o3.subscribe(function (response) {
                             _this.mystocks = response;
                             console.log("all my stox", _this.mystocks);
+                            _this.buystock = false;
                         });
                     });
                 });

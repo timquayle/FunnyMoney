@@ -274,7 +274,7 @@ module.exports = {
        //none bcrypt path
                                else {
            const user = new Users({firstname: req.body.firstname, lastname: req.body.lastname,
-               email: req.body.email, password: req.body.password});
+               email: req.body.email, password: req.body.password, money: 100000});
                user.save(function (err, saved) {
                    Users.findOne({email: req.body.email}, function(err, user) {
                    console.log("thiS USER:",user);
