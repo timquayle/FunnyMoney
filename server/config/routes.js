@@ -4,11 +4,18 @@ const stocks= require('../controllers/stocks.js')
 
 const path = require('path');
 module.exports = function(app) {
+  app.get('/changemoney/:money',(req, res, next) =>{
+    console.log('we are updating money total');
+   users.changeMoney(req, res);
+  })
   app.get('/getallusers',(req, res, next) =>{
     console.log('we are getting all users');
    users.usersgetall(req, res);
   })
-
+  app.get('/getuser',(req, res, next) =>{
+    console.log('we are getting current user');
+   users.userget(req, res);
+  })
 
   app.get('/removesessionid',(req, res, next) =>{
     console.log('we are removing the session id');
@@ -48,6 +55,11 @@ module.exports = function(app) {
     
     console.log('we are posting data, buying stock');
     stocks.buyStock(req, res);
+  })
+  app.post('/sellstock', (req, res, next) =>{
+    
+    console.log('we are posting data, selling stock');
+    stocks.sellStock(req, res);
   })
   app.get('/getalldailytotals/',(req, res, next) =>{
     console.log('we are getting all daily totals');

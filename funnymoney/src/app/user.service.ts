@@ -6,6 +6,16 @@ import {HttpClient}from  '@angular/common/http';
 export class UserService {
 
   constructor(private http: HttpClient) { }
+  changeMoney(money: Number) :any {
+    console.log("INSERVice updating money",money)
+    return this.http.get('/changemoney/'+money);
+
+  }
+  getUser() :any {
+    console.log("INSERVice getting current user")
+    return this.http.get('/getuser');
+
+  }
   getUsers() :any {
     console.log("INSERVice getting all users")
     return this.http.get('/getallusers');

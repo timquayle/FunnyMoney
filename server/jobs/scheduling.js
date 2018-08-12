@@ -19,7 +19,7 @@ const apikey= "614CAY3S4WQVWX15";
 
 //scheduled job, will run at 4:30pm PST and get all daily closing values for all stocks in the system, and store them in dailytotal table
 module.exports = function(app) {
-dailyclosing = schedule.scheduleJob('30 16 * * *', function(){
+dailyclosing = schedule.scheduleJob('0 17 * * 1-5', function(){
 //1 get all the symbols in the system
 Stocks.find({},{symbol: 1})
 .then(stocks =>{ const all_symbols = stocks;
@@ -33,6 +33,7 @@ Stocks.find({},{symbol: 1})
                       .then(data => {
                         
             //4 get the current price from our returned json string            
+                           console.log("--GETTING PRICE--",data);
                            let symbol_object =  getPrice(data, "close")
                            symbol_object.symbol = element.symbol;
                            console.log("SO",symbol_object);
@@ -55,8 +56,8 @@ Stocks.find({},{symbol: 1})
 })
 
 //scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
-const gnlcalc = schedule.scheduleJob('30 17 * * *', function(){
-  console.log('The answer to life, the universe, and everything!');
+const gnlcalc = schedule.scheduleJob('43 17 * * 1-5', function(){
+  //const gnlcalc = schedule.scheduleJob('30 * * * * *', function(){
   //0 get all userids in the system
   Users.find({},{userid: 1})
   .then(users=>{let currentusers=users; console.log("USERS:",currentusers);
@@ -69,22 +70,33 @@ const gnlcalc = schedule.scheduleJob('30 17 * * *', function(){
          console.log("FOUNDSTOCKS:",user_stocks);
           //2.get our daily tally totals for every stock symbol in the system
           //this is a buggy approach, what about holidays? should use last refreshed value
-          var d = new Date();
-          let todaysdate = d.getFullYear();
-          todaysdate = todaysdate  + '-' + '0' + (d.getMonth() +1);
-          todaysdate = todaysdate  + '-' + '0' +  d.getDate();
+          //var d = new Date();
+          //let todaysdate = d.getFullYear();
+// bug accomodate for when we don't need leading 0s inserted
+         // todaysdate = todaysdate  + '-' + '0' + (d.getMonth() +1);
+          //todaysdate = todaysdate  + '-'  +  d.getDate();
+       //get the date 
+          axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=T&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json')
+  .then(data => {
+                                  
+                   console.log("--GETTING DATE--");
+                   let symbol_object =  getPrice(data, "close")
+                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!DATEINFUNC:", symbol_object.datestring);
+                  todaysdate = symbol_object.datestring;
+ 
+                            
           console.log("-----TODAY'S DATE----",todaysdate);
           Daily.find({date: todaysdate},{})
          .then(dailytot =>{   const daily_totals=dailytot;    console.log("ALLStoX",daily_totals)
   //3. Loop through users stock, writing each gains and losses data into dailygnl table
          user_stocks.forEach( 
             (eachstock) => {
-                            console.log("LOOPING thROUGH USERS STOCK",eachstock);
+                           console.log("LOOPING thROUGH USERS STOCK",eachstock);
                             let gnl =  calcGainLoss(eachstock,daily_totals)
                             console.log("gnl_obj",gnl);
                 //     4. store each gain or loss value in the DailyGNL table
                                 const dailygnl = new DailyGnL({userid: gnl.userid, symbol: gnl.symbol,netgnl: gnl.netgnl, date: gnl.date })
-                            DailyGnL.create(dailygnl)
+                           DailyGnL.create(dailygnl)
                           .then(dailygnl=>{ console.log("created a new GNL entry",dailygnl)
                         //5 collect all dailyGnL's, add them up and add them to users "score"
                        
@@ -93,7 +105,8 @@ const gnlcalc = schedule.scheduleJob('30 17 * * *', function(){
                           else {console.log("UPDATED",user)}
                         })                        
                       })
-                          .catch(console.log);
+                        
+                      .catch(console.log);
 
                              })
 
@@ -101,7 +114,7 @@ const gnlcalc = schedule.scheduleJob('30 17 * * *', function(){
         })
          .catch(console.log); 
          
-        
+      })
         });
       });
 
@@ -160,8 +173,26 @@ function getPrice(response, price_type){
     symbol_object.datestring = bar[0];
     return symbol_object;
   } 
-   
-  
+ 
+  function getLastRefreshDate(){
+  axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=T&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json')
+  .then(data => {
+                                  
+                   console.log("--GETTING DATE--");
+                   let symbol_object =  getPrice(data, "close")
+                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!DATEINFUNC:", symbol_object.datestring);
+                   return symbol_object.datestring;
+ 
+                            })
+          .catch(error => {
+              // log the error before moving on!
+           console.log(error);
+            //  res.json(error);
+                              })               
+          
+
+
+}
 }
 
 

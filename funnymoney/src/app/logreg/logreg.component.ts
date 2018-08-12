@@ -76,7 +76,7 @@ ngOnInit() {
     observer.subscribe(
     (response) =>{
       console.log("response",response);               
-      this.router.navigate(['/home']);   
+      this.router.navigate(['/rules']);   
   
     },
      (Error) =>{

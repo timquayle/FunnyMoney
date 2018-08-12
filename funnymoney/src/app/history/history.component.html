@@ -1,7 +1,8 @@
+<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
 <h1>Stock Histories</h1>
 <div *ngFor="let gnls of mygnls">
 
-<p>{{gnls.symbol}} - Day: {{gnls.date}}  Activity: {{gnls.netgnl}}</p>
+<p>{{gnls.symbol}} - Day: {{gnls.date}}  Activity: {{gnls.netgnl|currency}}</p>
 
 
 

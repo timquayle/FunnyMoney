@@ -241,5 +241,23 @@ getcontact: function(req,res) {
      }
      })
  },
- 
-            }
+ userget: function(req,res){
+    console.log("getting current user")
+    Users.findOne({_id: req.session.userid}, function(err, user) {
+     if(err){
+         res.json(err)
+     }
+     else{
+        console.log("USERS",user);
+        res.json(user);
+     }
+     })
+ },
+ changeMoney: function(req,res) {
+     Users.findOneAndUpdate({_id: req.session.userid }, {$inc: {money: req.params.money}}, function (err, user) {
+    if (err) {console.log("updateError",err);  res.json(err);     }
+    else {res.json(user);
+        console.log("UPDATED",user)}
+  })                               
+}
+}

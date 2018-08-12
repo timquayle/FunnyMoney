@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService} from '../api.service';
+import { UserService} from '../user.service';
 import { FormsModule } from '@angular/forms';
 import {NgForm} from '@angular/forms';
 import {Stock} from '../models/stock';
@@ -22,23 +23,48 @@ export class HomepageComponent implements OnInit {
   notfound=false;
   daily_total = [];
   mystocks = [];
- constructor(private apiService: ApiService) { }
+  searching=false;
+  buystock=false;
+  currentuser = {};
+  secname='';
+  listingstock=true;
+  sellingstock=false;
+  sellstock = {symbol: '',
+  buyprice: 0,
+  amount: 0,
+
+  };
+ constructor(private apiService: ApiService,
+private userService: UserService) { }
 
   ngOnInit() {
     let o = this.apiService.getusersStock();
     o.subscribe( (response) =>{ this.mystocks = response;
       console.log("all my stox",this.mystocks);
+       let o2 = this.userService.getUser();
+       o2.subscribe(
+         (response) => {this.currentuser = response;
+        console.log("CurrentUser:",this.currentuser)
+        }
+       )
   
-  }
+  
+  
+    }
     )
 }
-  symSubmit(event: Event,form: NgForm){
-  event.preventDefault();
-  console.log("FV",form.value)
-  let observe = this.apiService.getSymbol(form.value.symb);
+ //get the current value of a symbol 
+symSubmit(symbol: string,secname: string){
+ // event.preventDefault();
+this.secname = secname;
+console.log("Secname:",this.secname);
+ this.searching=false;
+this.buystock=true;
+ console.log("FV",symbol)
+  let observe = this.apiService.getSymbol(symbol);
   observe.subscribe(
   (response) => {
-    this.stock.symbol = form.value.symb;
+    this.stock.symbol = symbol;
     this.validResponse=true;
     this.responseError=false;
     console.log("APIRESPONSE",response);
@@ -65,18 +91,54 @@ export class HomepageComponent implements OnInit {
 
 }
 
-
+//method that buys a stock
 buyStock(event: Event,form: NgForm){
   event.preventDefault();
   console.log("Buying Stock",form.value)
+ let totalspent = form.value.amount*form.value.buyprice;
+  console.log("Amountspent:",totalspent);
+let msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
+ let confirm = window.confirm(msgstr);
+console.log("CONFIRM?",confirm);
+ //did we say yes?
+ if(confirm) {
+ console.log("user confirmed yes")
   let observe = this.apiService.buyStock(form.value);
   observe.subscribe(
     (response) =>{
-      console.log("response",response )  },
+                 //adjust the users current "money" holdings  
+                 console.log("response",response ) 
+                  let o = this.userService.changeMoney(-totalspent);
+                  o.subscribe(
+                  (response) => {console.log(response)
+                  //get updating user stats
+                  let o2 = this.userService.getUser();
+                  o2.subscribe(
+                    (response) => {this.currentuser = response;
+                   console.log("CurrentUser:",this.currentuser)
+                   //get users updating stock listing
+                   let o3 = this.apiService.getusersStock();
+                   o3.subscribe( (response) =>{ this.mystocks = response;
+                     console.log("all my stox",this.mystocks);   
+                       })
+                    })
+                  })
+                  
+    
+    
+    },
     (Error) => {
       console.log("ERROR",Error);
     }
-  )
+  ) 
+ }
+
+ else {
+//we cancelled
+this.buystock=false;
+ }
+
+
 }
  getSymbols(){
   let observe = this.apiService.getSymbols();
@@ -221,9 +283,11 @@ getusergnl(){
       console.log("Tim's totals:",this.daily_totals);}
   )
 }
+//method that searches our stock listing for a symbol and security name, given a partial security name
 findSym(event: Event,findsym: NgForm){
 event.preventDefault();
 console.log(findsym.value);
+this.searching=true;
 let o = this.apiService.findsym(findsym.value.sym);
 o.subscribe(
   (response) => {
@@ -233,12 +297,93 @@ o.subscribe(
    }
    else { this.sym_data = response;
     this.notfound=false;
-    console.log("FOUND",this.sym_data.symbols);
+    console.log("FOUND",this.sym_data);
    }
 
   }
 )
 
 }
+//method that sells the users stock
+onSell(mystock){
+console.log("CURRENT STOCK in question:",mystock);
+//get the stock in questions current buy price
+this.sellingstock=true;
+this.sellstock=mystock;
+let observe = this.apiService.getSymbol(mystock.symbol);
+observe.subscribe(
+(response) => {
+  this.stock.symbol = mystock.symbol;
+  console.log("APIRESPONSE",response);
+  let foo = response;
+  let last_refreshed = foo['Meta Data']['3. Last Refreshed']
+  console.log(last_refreshed);
+  const bar = last_refreshed.split(' ')
+  console.log(bar);
+ //this is actually "sellprice" fix this in the future
+  this.stock.buyprice=  foo["Time Series (1min)"][last_refreshed]['4. close'];
+  console.log(foo["Time Series (1min)"][last_refreshed]['4. close']);
+ // foo[bar])
+},
+(Error) => {
+if(Error){
+this.responseError=true;
+}
+  console.log("APIERROR",Error)
+}
 
+) 
+
+
+}
+
+sellmyStock(event,form: NgForm){
+  event.preventDefault();
+console.log("SELLING thIS STOCK:",form.value);
+if(form.value.amount > this.sellstock.amount){
+  alert("Cannot Sell more stock than you have!")
+  this.sellingstock=false;
+  return;
+}
+//prompt the user and ask the amount they would like to sell
+let moneygotten = form.value.amount*form.value.sellprice;
+let msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + moneygotten;
+let confirm = window.confirm(msgstr);
+if(confirm) {
+//sell the stock
+form.value.amount=-form.value.amount;
+let o = this.apiService.sellStock(form.value);
+o.subscribe(
+(response) => { console.log("we sold stock:",response);
+
+//adjust "money" holdings
+let o2 = this.userService.changeMoney(moneygotten);
+                  o2.subscribe(
+                  (response) => {console.log(response)
+                  //get updating user stats
+                  let o3 = this.userService.getUser();
+                  o3.subscribe(
+                    (response) => {this.currentuser = response;
+                   console.log("CurrentUser:",this.currentuser)
+                   //get users updating stock listing
+                   let o4 = this.apiService.getusersStock();
+                   o4.subscribe( (response) =>{ this.mystocks = response;
+                     console.log("all my stox",this.mystocks);   
+                     this.sellingstock=false;
+                    })
+                    })
+                  })
+
+
+
+})
+
+}
+//user cancelled sell
+else{
+  this.sellingstock=false;
+}
+
+
+}
 }

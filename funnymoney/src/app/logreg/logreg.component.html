@@ -1,5 +1,7 @@
 <div *ngIf="!regFlag" class="login">
-  <form (submit)="onLogin($event,logForm)"  #logForm='ngForm'  >
+  <fieldset>
+      <legend>FunnyMoney Login</legend>
+    <form (submit)="onLogin($event,logForm)"  #logForm='ngForm'  >
       <label for="emailidl"> Email</label><input type="text" name="email" id="emailidl"
                [ngModel]="emailidl" 
               required
@@ -13,9 +15,12 @@
               <button>Login</button>
       </form>
      <p> Dont have an Account?<a href (click)="regUser($event)">Register</a></p>
-     </div>
+   </fieldset>
+    </div>
      <div *ngIf="regFlag" class="register">
-      <form  (submit)="onReg($event,regForm)"  #regForm='ngForm'>
+    <fieldset>
+        <legend>FunnyMoney Registration</legend>
+        <form  (submit)="onReg($event,regForm)"  #regForm='ngForm'>
           <label for="fname"> First Name</label><input type="text" name="firstname" id="fname"
           [ngModel]="fname" 
           required
@@ -40,4 +45,5 @@
           <div *ngIf="passmm" class="errormsg" >Password must match conformation password</div>
           <button [disabled]="!regForm.valid">Register</button>
           </form>
-          </div> 
+      </fieldset>
+        </div> 

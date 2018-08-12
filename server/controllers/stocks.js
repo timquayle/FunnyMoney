@@ -15,17 +15,18 @@ module.exports = {
   findSym(req,res){
     console.log("looking up symbol", req.params.id)
  
-   StockSymbolLookup.search(req.params.id)
+   StockSymbolLookup.searchBySecurity(req.params.id)
     .then((data) => {
-      if(!data.symbols.length){
+      if(data.length===0){
         console.log("here?")
         res.json('nosymbol')
       }
       else{
        // console.log(data.symbols.length);
-        res.json(data);
+        console.log("DATA",data.length);
+       res.json(data);
       }
-      console.log("SYM",data);
+   //   console.log("SYM",data);
    
 });
 
@@ -83,7 +84,7 @@ getAllsymbols(req, res){
 },
 
     buyStock(req, res) {
-    const stock =  new Stocks({symbol: req.body.symbol, amount: req.body.amount, buyprice: req.body.buyprice, userid: req.session.userid })
+    const stock =  new Stocks({symbol: req.body.symbol, amount: req.body.amount, buyprice: req.body.buyprice, userid: req.session.userid, sname: req.body.sname })
        console.log('buying stock in controller', stock);
      Stocks.create(stock)
           .then(stock => res.json(stock))
@@ -95,59 +96,13 @@ getAllsymbols(req, res){
             res.status(500).json(errors);
           });
 },
- usersadd: function(req, res) {
-     //const note = req.body;
-     console.log("passed user:",req.body);
-     bcrypt.hash(req.body.password, 10)
-     .then(hashed_password => {
-         console.log(hashed_password);
-      const user = new Users({firstname: req.body.firstname, lastname: req.body.lastname,
-                    email: req.body.email, password: hashed_password});
-      user.save(function (err, saved) {
-        Users.findOne({email: req.body.email}, function(err, user) {
-        console.log("thiS USER:",user);
-        req.session.userid = user._id;
-        console.log("ID ",req.session.userid);
-        req.session.email = req.body.email;
-        console.log(req.session.email);
-         req.session.save();
-         res.json('registered');
-        }) 
-    })
+sellStock: function(req,res) {
+  Stocks.findOneAndUpdate({_id: req.body.id }, {$inc: {amount: req.body.amount}}, function (err, stock) {
+ if (err) {console.log("updateError",err);  res.json(err);     }
+ else {res.json(stock);
+     console.log("UPDATED",stock)}
+})                               
+},
 
-
-
-
-                              })
-                   
-                   
-                   
-                    },
- 
-
-
-getcontact: function(req,res) {
-
-    console.log("getting contact ",req.params.id)
-    Users.find({_id: req.params.id},function(err, users) {
-        res.json(users);
-        console.log(err);
-      })
-    },
-        getsessionid: function(req,res) {
-            if (typeof req.session.userid === 'undefined')   {
-            res.json('nosessionid');
-            }
-            else {console.log(req.session.userid);
-            res.json(req.session.userid);
-            }
-        },
-        removesessionid: function(req,res) {
-            console.log('removing sessionid!');
-                  delete req.session.userid;
-                  delete req.session.email;
-                  req.session.save();
-                  res.json('session removed')
-                },
        
     }

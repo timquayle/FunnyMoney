@@ -1,3 +1,27 @@
 a{
     margin-left:10px;
 }
+.info{
+    background-color: black;
+    color:yellow;
+    display: inline-block;
+    vertical-align: top;
+    width:500px;
+    height:800px;
+    overflow: scroll;
+}
+.searchbuy{
+height:800px;
+width:500px;
+display:inline-block;
+}
+
+
+tr td button{
+    background-color:blue;
+    color:yellow;
+}
+tr:nth-child(even) {
+    background-color: #dddddd;
+    color:black;
+}
