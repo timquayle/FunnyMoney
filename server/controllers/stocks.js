@@ -99,8 +99,18 @@ getAllsymbols(req, res){
 sellStock: function(req,res) {
   Stocks.findOneAndUpdate({_id: req.body.id }, {$inc: {amount: req.body.amount}}, function (err, stock) {
  if (err) {console.log("updateError",err);  res.json(err);     }
- else {res.json(stock);
-     console.log("UPDATED",stock)}
+ else {
+     console.log("UPDATED",stock)
+     console.log("WESOLD: WEHAD",stock.amount,-req.body.amount)
+     if(-req.body.amount===stock.amount) {
+         console.log("SELLING ALL OUR STOCK!!");
+         Stocks.remove({_id: req.body.id}, function(err,removed) {
+         res.json(stock);
+       })
+        }
+     
+     else { res.json(stock); }
+      }
 })                               
 },
 
