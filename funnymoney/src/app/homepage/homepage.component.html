@@ -46,6 +46,7 @@
     <h1>Hello, {{currentuser.firstname}} </h1>
     <h2>Money Available: {{currentuser.money|currency}}</h2>
     <h2>Total Profit/Score: {{currentuser.score|currency}}</h2>
+   <div *ngIf="mystocks.length !==0">
     <H2>My Current Stocks:</H2>
     <table>
         <tr>
@@ -65,7 +66,8 @@
       <td><button (click)="onSell(mystock)">Sell</button></td>
     </tr>
     </table>
-    </fieldset>
+   </div>
+  </fieldset>
     </div>
    
    

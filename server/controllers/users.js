@@ -1,6 +1,6 @@
 
 const Users = require("../models/user.js");
-const bcrypt = require('bcrypt-as-promised');
+const bcrypt = require('bcrypt');
 const BCRYPT_ENABLE = false;
 module.exports = {
 

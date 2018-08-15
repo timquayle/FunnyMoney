@@ -56,7 +56,7 @@ Stocks.find({},{symbol: 1})
 })
 
 //scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
-const gnlcalc = schedule.scheduleJob('43 17 * * 1-5', function(){
+const gnlcalc = schedule.scheduleJob('30 17 * * 1-5', function(){
   //const gnlcalc = schedule.scheduleJob('30 * * * * *', function(){
   //0 get all userids in the system
   Users.find({},{userid: 1})

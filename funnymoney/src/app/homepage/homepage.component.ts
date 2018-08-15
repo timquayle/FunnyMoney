@@ -32,6 +32,7 @@ export class HomepageComponent implements OnInit {
   sellstock = {symbol: '',
   buyprice: 0,
   amount: 0,
+  nostocks: false,
 
   };
  constructor(private apiService: ApiService,
@@ -41,7 +42,7 @@ private userService: UserService) { }
     let o = this.apiService.getusersStock();
     o.subscribe( (response) =>{ this.mystocks = response;
       console.log("all my stox",this.mystocks);
-       let o2 = this.userService.getUser();
+      let o2 = this.userService.getUser();
        o2.subscribe(
          (response) => {this.currentuser = response;
         console.log("CurrentUser:",this.currentuser)
