@@ -251,7 +251,7 @@ module.exports = {
         .then(hashed_password => {
             console.log(hashed_password);
          const user = new Users({firstname: req.body.firstname, lastname: req.body.lastname,
-                       email: req.body.email, password: hashed_password});
+                       email: req.body.email, password: hashed_password, money: 100000});
          user.save(function (err, saved) {
            Users.findOne({email: req.body.email}, function(err, user) {
            console.log("thiS USER:",user);
