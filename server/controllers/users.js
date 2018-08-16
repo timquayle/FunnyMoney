@@ -1,7 +1,7 @@
 
 const Users = require("../models/user.js");
 const bcrypt = require('bcrypt');
-const BCRYPT_ENABLE = false;
+const BCRYPT_ENABLE = true;
 module.exports = {
 
 
@@ -253,7 +253,10 @@ module.exports = {
          const user = new Users({firstname: req.body.firstname, lastname: req.body.lastname,
                        email: req.body.email, password: hashed_password, money: 100000});
          user.save(function (err, saved) {
-           Users.findOne({email: req.body.email}, function(err, user) {
+          if(err){
+              res.json(err);
+          }
+        else{    Users.findOne({email: req.body.email}, function(err, user) {
            console.log("thiS USER:",user);
            req.session.userid = user._id;
            console.log("ID ",req.session.userid);
@@ -261,9 +264,10 @@ module.exports = {
            console.log(req.session.email);
             req.session.save();
             res.json('registered');
-           
+    
            }) 
-       })
+        }
+        })
         
    
    

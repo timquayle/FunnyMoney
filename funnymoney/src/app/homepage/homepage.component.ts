@@ -25,7 +25,9 @@ export class HomepageComponent implements OnInit {
   mystocks = [];
   searching=false;
   buystock=false;
-  currentuser = {};
+  currentuser = {
+    money: 0
+  };
   secname='';
   listingstock=true;
   sellingstock=false;
@@ -95,10 +97,16 @@ this.buystock=true;
 //method that buys a stock
 buyStock(event: Event,form: NgForm){
   event.preventDefault();
+ console.log("THISUSER,",this.currentuser);
   console.log("Buying Stock",form.value)
  let totalspent = form.value.amount*form.value.buyprice;
   console.log("Amountspent:",totalspent);
-let msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
+if(this.currentuser.money < totalspent) {
+  alert("Cannot spend more money than you have!");
+  this.buystock=false;
+  return;
+}
+  let msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
  let confirm = window.confirm(msgstr);
 console.log("CONFIRM?",confirm);
  //did we say yes?
@@ -337,7 +345,7 @@ this.responseError=true;
 ) 
 
 
-}
+} 
 
 sellmyStock(event,form: NgForm){
   event.preventDefault();

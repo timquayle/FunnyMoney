@@ -307,7 +307,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div *ngFor=\"let gnls of mygnls\">\n\n<p>{{gnls.symbol}} - Day: {{gnls.date}}  Activity: {{gnls.netgnl|currency}}</p>\n\n\n\n</div>\n"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div *ngFor=\"let gnls of mygnls\">\n\n<p>{{gnls.symbol}} - Day: {{gnls.date}} ClosePrice:{{gnls.closeprice|currency}} Gain/Loss: {{gnls.netgnl|currency}}</p>\n\n\n\n</div>\n"
 
 /***/ }),
 
@@ -428,7 +428,9 @@ var HomepageComponent = /** @class */ (function () {
         this.mystocks = [];
         this.searching = false;
         this.buystock = false;
-        this.currentuser = {};
+        this.currentuser = {
+            money: 0
+        };
         this.secname = '';
         this.listingstock = true;
         this.sellingstock = false;
@@ -485,9 +487,15 @@ var HomepageComponent = /** @class */ (function () {
     HomepageComponent.prototype.buyStock = function (event, form) {
         var _this = this;
         event.preventDefault();
+        console.log("THISUSER,", this.currentuser);
         console.log("Buying Stock", form.value);
         var totalspent = form.value.amount * form.value.buyprice;
         console.log("Amountspent:", totalspent);
+        if (this.currentuser.money < totalspent) {
+            alert("Cannot spend more money than you have!");
+            this.buystock = false;
+            return;
+        }
         var msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
         var confirm = window.confirm(msgstr);
         console.log("CONFIRM?", confirm);
