@@ -18,7 +18,10 @@ return this.http.get(' https://www.alphavantage.co/query?function=TIME_SERIES_IN
 // return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&outputsize=compact&apikey=' + apikey + '&datatype=json');
 }
 
-
+getsymDailies(symbol): Observable<any[]>{
+  console.log('inservice getting daily closing values for',symbol);
+  return this.http.get<any[]>('/getsymdailies/' +symbol);
+}
 getsymStockdata(symbol) {
   console.log('inservice getting symbol data for',symbol);
   return this.http.get('/getsymstockdata/' +symbol);

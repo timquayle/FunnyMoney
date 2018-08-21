@@ -70,6 +70,10 @@ module.exports = function(app) {
     console.log('we are getting all daily totals');
    stocks.getAlldailytotals(req, res);
   })
+  app.get('/getsymdailies/:symbol',(req, res, next) =>{
+    console.log('we are getting closing totals for a symbol',req.params.symbol);
+   stocks.getSymdailies(req, res);
+  })
   app.get('/getusersstock/',(req, res, next) =>{
     console.log('we are getting a users stocks');
    stocks.getusersStock(req, res);

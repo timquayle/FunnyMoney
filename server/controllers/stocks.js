@@ -76,6 +76,13 @@ getAlldailytotals(req, res){
     .catch(console.log);
 
 }, 
+//get *all* closing values for a given symbol (get)
+getSymdailies(req, res){
+  Daily.find({'symbol': req.params.symbol }  )
+    .then(daily => res.json(daily))
+    .catch(console.log);
+
+}, 
 getAllsymbols(req, res){
             Stocks.find({},{symbol: 1})
               .then(stocks => res.json(stocks))

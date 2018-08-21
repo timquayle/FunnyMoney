@@ -19,14 +19,17 @@ export class SymgraphComponent implements OnInit {
 
   ngOnInit() {
     this.route.paramMap.subscribe( params => {
-   console.log("PARAMETER",params.get('symbol'))
-    let symbol = params.get('symbol');
+   console.log("PARAMETER",params.get('symbol'));
+   let symbol = params.get('symbol');
+    
     let obs = this.apiService.getsymStockdata(symbol)
-   
+   //get daily net gains and losses for stock
     obs.subscribe( (response) => {this.stockbm = response
       console.log("THIS STOCK:",this.stockbm);
       let o = this.apiService.getuserSymgnl(symbol)
-    o.subscribe( (response) =>{ this.stockhist = response;
+   
+   
+      o.subscribe( (response) =>{ this.stockhist = response;
       this.currentsymbol = this.stockhist[0].symbol;
       console.log("stock history",this.stockhist);
       this.stockhist.forEach( 

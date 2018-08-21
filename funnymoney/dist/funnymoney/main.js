@@ -337,6 +337,10 @@ var ApiService = /** @class */ (function () {
         return this.http.get(' https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + symbol + '&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json');
         // return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&outputsize=compact&apikey=' + apikey + '&datatype=json');
     };
+    ApiService.prototype.getsymDailies = function (symbol) {
+        console.log('inservice getting daily closing values for', symbol);
+        return this.http.get('/getsymdailies/' + symbol);
+    };
     ApiService.prototype.getsymStockdata = function (symbol) {
         console.log('inservice getting symbol data for', symbol);
         return this.http.get('/getsymstockdata/' + symbol);
@@ -416,6 +420,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _history_history_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./history/history.component */ "./src/app/history/history.component.ts");
 /* harmony import */ var _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./rules/rules.component */ "./src/app/rules/rules.component.ts");
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
+/* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -430,9 +435,11 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
+
 var routes = [{ path: '', component: _logreg_logreg_component__WEBPACK_IMPORTED_MODULE_2__["LogregComponent"] }, { path: 'home', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_3__["HomepageComponent"] },
     { path: 'leaderboard', component: _leaderboard_leaderboard_component__WEBPACK_IMPORTED_MODULE_4__["LeaderboardComponent"] }, { path: 'history', component: _history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"] },
-    { path: 'rules', component: _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__["RulesComponent"] }, { path: 'history/:symbol', component: _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__["SymgraphComponent"] },];
+    { path: 'rules', component: _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__["RulesComponent"] }, { path: 'history/:symbol', component: _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__["SymgraphComponent"] },
+    { path: 'history/daily/:symbol', component: _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__["SymgraphdailyComponent"] }];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
@@ -531,12 +538,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _history_history_component__WEBPACK_IMPORTED_MODULE_11__ = __webpack_require__(/*! ./history/history.component */ "./src/app/history/history.component.ts");
 /* harmony import */ var _rules_rules_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./rules/rules.component */ "./src/app/rules/rules.component.ts");
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
+/* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -564,6 +573,7 @@ var AppModule = /** @class */ (function () {
                 _history_history_component__WEBPACK_IMPORTED_MODULE_11__["HistoryComponent"],
                 _rules_rules_component__WEBPACK_IMPORTED_MODULE_12__["RulesComponent"],
                 _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__["SymgraphComponent"],
+                _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__["SymgraphdailyComponent"],
             ],
             imports: [
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
@@ -600,7 +610,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] + symbol\" >{{symbol}}</a>\n\n\n\n\n"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>"
 
 /***/ }),
 
@@ -1356,7 +1366,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>\n"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Daily Stock Gains and losses values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>\n"
 
 /***/ }),
 
@@ -1405,6 +1415,7 @@ var SymgraphComponent = /** @class */ (function () {
             console.log("PARAMETER", params.get('symbol'));
             var symbol = params.get('symbol');
             var obs = _this.apiService.getsymStockdata(symbol);
+            //get daily net gains and losses for stock
             obs.subscribe(function (response) {
                 _this.stockbm = response;
                 console.log("THIS STOCK:", _this.stockbm);
@@ -1457,6 +1468,132 @@ var SymgraphComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
     ], SymgraphComponent);
     return SymgraphComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/symgraphdaily/symgraphdaily.component.css":
+/*!***********************************************************!*\
+  !*** ./src/app/symgraphdaily/symgraphdaily.component.css ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "a{\r\n    margin-left:10px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/symgraphdaily/symgraphdaily.component.html":
+/*!************************************************************!*\
+  !*** ./src/app/symgraphdaily/symgraphdaily.component.html ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Daily Closing Values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/symgraphdaily/symgraphdaily.component.ts":
+/*!**********************************************************!*\
+  !*** ./src/app/symgraphdaily/symgraphdaily.component.ts ***!
+  \**********************************************************/
+/*! exports provided: SymgraphdailyComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SymgraphdailyComponent", function() { return SymgraphdailyComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! chart.js */ "./node_modules/chart.js/src/chart.js");
+/* harmony import */ var chart_js__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(chart_js__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+
+var SymgraphdailyComponent = /** @class */ (function () {
+    function SymgraphdailyComponent(apiService, route) {
+        this.apiService = apiService;
+        this.route = route;
+        this.stockhist = [];
+        this.currentsymbol = '';
+        this.chart = [];
+        this.days = [];
+        this.stockdata = [];
+        this.stockbm = {};
+    }
+    SymgraphdailyComponent.prototype.ngOnInit = function () {
+        var _this = this;
+        this.route.paramMap.subscribe(function (params) {
+            console.log("PARAMETER", params.get('symbol'));
+            var symbol = params.get('symbol');
+            var obs = _this.apiService.getsymStockdata(symbol);
+            //get daily net gains and losses for stock
+            obs.subscribe(function (response) {
+                _this.stockbm = response;
+                console.log("THIS STOCK:", _this.stockbm);
+                var o = _this.apiService.getsymDailies(symbol);
+                o.subscribe(function (response) {
+                    _this.stockhist = response;
+                    _this.currentsymbol = _this.stockhist[0].symbol;
+                    console.log("stock history", _this.stockhist);
+                    _this.stockhist.forEach(function (day) {
+                        _this.days.push(day.date);
+                        _this.stockdata.push(day.closeprice);
+                        _this.chart = new chart_js__WEBPACK_IMPORTED_MODULE_2__["Chart"]('canvas', {
+                            type: 'line',
+                            data: {
+                                labels: _this.days,
+                                datasets: [
+                                    {
+                                        data: _this.stockdata,
+                                        borderColor: 'fffff',
+                                        fill: false
+                                    }
+                                ]
+                            },
+                            options: {
+                                legend: {
+                                    display: false
+                                },
+                                scales: {
+                                    xAxes: [{
+                                            display: true
+                                        }],
+                                    yAxes: [{
+                                            display: true
+                                        }],
+                                }
+                            }
+                        });
+                    });
+                });
+            });
+        });
+    };
+    SymgraphdailyComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-symgraphdaily',
+            template: __webpack_require__(/*! ./symgraphdaily.component.html */ "./src/app/symgraphdaily/symgraphdaily.component.html"),
+            styles: [__webpack_require__(/*! ./symgraphdaily.component.css */ "./src/app/symgraphdaily/symgraphdaily.component.css")]
+        }),
+        __metadata("design:paramtypes", [_api_service__WEBPACK_IMPORTED_MODULE_1__["ApiService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_3__["ActivatedRoute"]])
+    ], SymgraphdailyComponent);
+    return SymgraphdailyComponent;
 }());
 
 
