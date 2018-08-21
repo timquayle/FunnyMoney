@@ -1,0 +1,8 @@
+<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
+<h1>History for {{currentsymbol}}</h1>
+<h2>Amount of shares: {{stockbm.amount}}</h2>
+<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>
+<div *ngIf="chart">
+<canvas id="canvas">{{ chart }}</canvas>
+
+</div>

@@ -18,6 +18,16 @@ return this.http.get(' https://www.alphavantage.co/query?function=TIME_SERIES_IN
 // return this.http.get('https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=' + symbol + '&outputsize=compact&apikey=' + apikey + '&datatype=json');
 }
 
+
+getsymStockdata(symbol) {
+  console.log('inservice getting symbol data for',symbol);
+  return this.http.get('/getsymstockdata/' +symbol);
+}
+
+getuserSymgnl(symbol): Observable<any[]> {
+  console.log('inservice getting symbol history for a user',symbol);
+  return this.http.get<any[]>('/getusersymgnl/' +symbol);
+}
 getallUsergnl(): Observable<any[]> {
   console.log('inservice getting a users gains and losses');
   return this.http.get<any[]>('/getallusergnl');

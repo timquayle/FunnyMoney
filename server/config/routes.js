@@ -50,6 +50,11 @@ module.exports = function(app) {
     console.log('we are getting a users daily  gains n losses');
    stocks.getalluserGnl(req, res);
   })
+  app.get('/getusersymgnl/:symbol',(req, res, next) =>{
+    console.log('we are getting a users history of symbol:',req.params.symbol);
+   stocks.getuserSymgnl(req, res);
+  })
+
 
   app.post('/buystock', (req, res, next) =>{
     
@@ -68,6 +73,10 @@ module.exports = function(app) {
   app.get('/getusersstock/',(req, res, next) =>{
     console.log('we are getting a users stocks');
    stocks.getusersStock(req, res);
+  })
+  app.get('/getsymstockdata/:symbol',(req, res, next) =>{
+    console.log('we are getting data for a users stock', req.params.symbol);
+   stocks.getsymStockdata(req, res);
   })
   app.get('/getallsymbols',(req, res, next) =>{
     console.log('we are getting all stocks');

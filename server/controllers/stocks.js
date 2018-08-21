@@ -36,7 +36,7 @@ module.exports = {
   }, 
   getalluserGnl(req, res){
     console.log("getting stock history/controller")
-    DailyGnL.find({userid: req.session.userid} )
+    DailyGnL.distinct("symbol",{userid: req.session.userid})
       .then(allgnls => res.json(allgnls))
       .catch(console.log);
   
@@ -44,6 +44,13 @@ module.exports = {
  
   getuserDailygnl(req, res){
     DailyGnL.find(  {$and: [ {'userid':  req.params.id},{ 'date': req.params.date }  ] } )
+      .then(dailytot => res.json(dailytot))
+      .catch(console.log);
+  
+  }, 
+  //get all values of a symbol for the current user
+  getuserSymgnl(req, res){
+    DailyGnL.find(  {$and: [ {'userid':  req.session.userid},{ 'symbol': req.params.symbol }  ] } )
       .then(dailytot => res.json(dailytot))
       .catch(console.log);
   
@@ -82,6 +89,14 @@ getAllsymbols(req, res){
           .catch(console.log);
     
 },
+//get current users stock data for a particular symbol
+getsymStockdata(req, res){
+ console.log("WE ARE HERE!!")
+  Stocks.findOne(  {$and: [ {'userid':  req.session.userid},{ 'symbol': req.params.symbol }  ] } )
+    .then(symboldata => {console.log("RESULT",symboldata); res.json(symboldata) }) 
+    .catch(console.log);
+
+}, 
 
     buyStock(req, res) {
     const stock =  new Stocks({symbol: req.body.symbol, amount: req.body.amount, buyprice: req.body.buyprice, userid: req.session.userid, sname: req.body.sname })

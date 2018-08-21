@@ -11,6 +11,7 @@ import { HomepageComponent } from './homepage/homepage.component';
 import { LeaderboardComponent } from './leaderboard/leaderboard.component';
 import { HistoryComponent } from './history/history.component';
 import { RulesComponent } from './rules/rules.component';
+import { SymgraphComponent } from './symgraph/symgraph.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -18,7 +19,8 @@ import { RulesComponent } from './rules/rules.component';
     HomepageComponent,
     LeaderboardComponent,
     HistoryComponent,
-    RulesComponent
+    RulesComponent,
+    SymgraphComponent,
   ],
   imports: [
     BrowserModule,
