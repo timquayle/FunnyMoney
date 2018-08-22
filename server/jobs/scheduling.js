@@ -21,40 +21,41 @@ const apikey= "614CAY3S4WQVWX15";
 module.exports = function(app) {
 dailyclosing = schedule.scheduleJob('0 17 * * 1-5', function(){
 //1 get all the symbols in the system
-Stocks.find({},{symbol: 1})
+Stocks.distinct("symbol")
 .then(stocks =>{ const all_symbols = stocks;
                  console.log('allsymb',all_symbols);
              //2 get the closing values for each symbol in our system  
                  all_symbols.forEach( 
                     (element) => {
-                    console.log(element.symbol);
+                    console.log("CURRENTSTOCK",element);
             //3 get the current value of each symbol in our system
-                    axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + element.symbol + '&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json')
-                      .then(data => {
-                        
+ url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + element + '&interval=5min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
+             //get our api data using a retry function, because well.. they suck..but its free.
+ getSymvalue(url,10,500,10000,element,function(err, data) {
+                    if(err){
+                      console.log("we have error!",err)
+                    }
+                    else{
+                       console.log("DATASTATUS",data.status);
             //4 get the current price from our returned json string            
-                           console.log("--GETTING PRICE--",data);
-                           let symbol_object =  getPrice(data, "close")
-                           symbol_object.symbol = element.symbol;
+                          // console.log("--GETTING PRICE--",data);
+                           let symbol_object =  getPrice(data, "close",element)
+                           symbol_object.symbol = element;
                            console.log("SO",symbol_object);
             //5 write our closing values to our daily totals table(collection)  
          const daily = new Daily({symbol: symbol_object.symbol,closeprice: symbol_object.curprice, date: symbol_object.datestring  })
             Daily.create(daily)
            .then(daily=> console.log(daily))
             .catch(console.log);
-              
-                                    })
-                  .catch(error => {
-                      // log the error before moving on!
-                   console.log(error);
-                    //  res.json(error);
-                                      })               
+                    }
+                                              
                   });
 
                 })
-.catch(console.log);  //catch to get all symbols find
+//.catch(console.log);  //catch to get all symbols find
 })
 
+})
 //scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
 const gnlcalc = schedule.scheduleJob('30 17 * * 1-5', function(){
   //const gnlcalc = schedule.scheduleJob('30 * * * * *', function(){
@@ -146,9 +147,21 @@ function calcGainLoss(stock_obj,daily_totals = []){
     }
     
 //function takes in a response and extracts the json data for the closing or opening price, depending on paramaters.
-function getPrice(response, price_type){
-    let foo = response;
-    console.log(foo['data']['Meta Data']['3. Last Refreshed']);
+function getPrice(response, price_type,element){
+   console.log("STOCK?",element);
+  
+
+
+let foo = response;
+    if(Object.getOwnPropertyNames(foo['data']).length === 0){
+      console.log("Object is empty!",element)
+      
+   
+    }
+  
+    
+   // console.log("----------------",foo['data']);
+    console.log("ourDATA",foo['data']['Meta Data']['3. Last Refreshed']);
      let last_refreshed = foo['data']['Meta Data']['3. Last Refreshed']
     let curprice=0;
     let symbol_object = {
@@ -156,16 +169,16 @@ function getPrice(response, price_type){
       curprice: 0,
       datestring: '',
     }
-    console.log(last_refreshed);
+    console.log("LRFR",last_refreshed);
     const bar = last_refreshed.split(' ')
     console.log(bar);
     if(price_type==="open"){
-    curprice =  foo['data']["Time Series (1min)"][last_refreshed]['1. open'];
+    curprice =  foo['data']["Time Series (5min)"][last_refreshed]['1. open'];
     console.log(curprice);
     }
     else if (price_type==="close"){
-    curprice =  foo['data']["Time Series (1min)"][last_refreshed]['4. close'];
-      console.log(curprice);
+    curprice =  foo['data']["Time Series (5min)"][last_refreshed]['4. close'];
+      console.log("CLOSE",curprice);
     }
    //returned price
     symbol_object.curprice = curprice;
@@ -193,6 +206,41 @@ function getPrice(response, price_type){
 
 
 }
+function getSymvalue(url,retryTimes, retryDelay,retry2Delay, element, callback) {
+  var cntr = 0;
+//version 2 - keep a retry count and fail after a count
+  function run() {
+      axios.get(url)    
+       .then(data => {
+        console.log("DEALING WITH STOCK",element);
+        console.log("------DL",Object.getOwnPropertyNames(data['data']).length);
+        if(Object.getOwnPropertyNames(data['data']).length == 0){
+          //metaData is null, try again
+          console.log("GOT NULL DATA, trying again")
+          setTimeout(run, retryDelay);
+         }
+         //missing metadata, trying again after longer wait.
+         else if(Object.getOwnPropertyNames(data['data']).length == 1){
+          console.log("MISSING METADATA, trying again")
+          setTimeout(run, retry2Delay);
+        }
+         else{
+           //data set is not null, send out data
+           console.log("GOT GOOD DATA, returning")
+           callback(null, data);
+         }
+      
+      })
+      .catch(err => {
+        callback(err);
+      })
+          
+      };
+    // start our first request
+    run();
+    }
+
+
 }
 
 

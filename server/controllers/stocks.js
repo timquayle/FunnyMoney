@@ -78,7 +78,7 @@ getAlldailytotals(req, res){
 }, 
 //get *all* closing values for a given symbol (get)
 getSymdailies(req, res){
-  Daily.distinct("date",{'symbol': req.params.symbol }  )
+  Daily.find({'symbol': req.params.symbol }  )
     .then(daily => res.json(daily))
     .catch(console.log);
 
