@@ -19,7 +19,7 @@ const apikey= "614CAY3S4WQVWX15";
 
 //scheduled job, will run at 4:30pm PST and get all daily closing values for all stocks in the system, and store them in dailytotal table
 module.exports = function(app) {
-dailyclosing = schedule.scheduleJob('0 17 * * 1-5', function(){
+  dailyclosing = schedule.scheduleJob('0 15 * * 1-5', function(){
 //1 get all the symbols in the system
 Stocks.distinct("symbol")
 .then(stocks =>{ const all_symbols = stocks;
@@ -29,7 +29,7 @@ Stocks.distinct("symbol")
                     (element) => {
                     console.log("CURRENTSTOCK",element);
             //3 get the current value of each symbol in our system
- url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + element + '&interval=5min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
+ url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + element + '&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
              //get our api data using a retry function, because well.. they suck..but its free.
  getSymvalue(url,10,500,10000,element,function(err, data) {
                     if(err){
@@ -57,8 +57,19 @@ Stocks.distinct("symbol")
 
 })
 //scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
-const gnlcalc = schedule.scheduleJob('30 17 * * 1-5', function(){
-  //const gnlcalc = schedule.scheduleJob('30 * * * * *', function(){
+const gnlcalc = schedule.scheduleJob('30 15 * * 1-5', function(){
+  url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=T&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
+  getSymvalue(url,10,500,10000,"T",function(err, data) {
+    if(err){
+      console.log("we have error!",err)
+    }
+    else{
+      console.log("--GETTING DATE--");
+      let symbol_object =  getPrice(data, "close")
+     console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!DATEINFUNC:", symbol_object.datestring);
+     todaysdate = symbol_object.datestring;          
+     console.log("-----TODAY'S DATE----",todaysdate);
+      //const gnlcalc = schedule.scheduleJob('30 * * * * *', function(){
   //0 get all userids in the system
   Users.find({},{userid: 1})
   .then(users=>{let currentusers=users; console.log("USERS:",currentusers);
@@ -70,23 +81,6 @@ const gnlcalc = schedule.scheduleJob('30 17 * * 1-5', function(){
     .then(stocks =>{ let user_stocks=stocks;
          console.log("FOUNDSTOCKS:",user_stocks);
           //2.get our daily tally totals for every stock symbol in the system
-          //this is a buggy approach, what about holidays? should use last refreshed value
-          //var d = new Date();
-          //let todaysdate = d.getFullYear();
-// bug accomodate for when we don't need leading 0s inserted
-         // todaysdate = todaysdate  + '-' + '0' + (d.getMonth() +1);
-          //todaysdate = todaysdate  + '-'  +  d.getDate();
-       //get the date 
-          axios.get('https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=T&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json')
-  .then(data => {
-                                  
-                   console.log("--GETTING DATE--");
-                   let symbol_object =  getPrice(data, "close")
-                  console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!DATEINFUNC:", symbol_object.datestring);
-                  todaysdate = symbol_object.datestring;
- 
-                            
-          console.log("-----TODAY'S DATE----",todaysdate);
           Daily.find({date: todaysdate},{})
          .then(dailytot =>{   const daily_totals=dailytot;    console.log("ALLStoX",daily_totals)
   //3. Loop through users stock, writing each gains and losses data into dailygnl table
@@ -115,14 +109,15 @@ const gnlcalc = schedule.scheduleJob('30 17 * * 1-5', function(){
         })
          .catch(console.log); 
          
-      })
+      
         });
       });
 
    });
 
-
+  }
 });
+})
 
 //function takes in stock_object and daily_totals values and returns an object containing net gain/loss value in an object
 function calcGainLoss(stock_obj,daily_totals = []){
@@ -173,11 +168,11 @@ let foo = response;
     const bar = last_refreshed.split(' ')
     console.log(bar);
     if(price_type==="open"){
-    curprice =  foo['data']["Time Series (5min)"][last_refreshed]['1. open'];
+    curprice =  foo['data']["Time Series (1min)"][last_refreshed]['1. open'];
     console.log(curprice);
     }
     else if (price_type==="close"){
-    curprice =  foo['data']["Time Series (5min)"][last_refreshed]['4. close'];
+    curprice =  foo['data']["Time Series (1min)"][last_refreshed]['4. close'];
       console.log("CLOSE",curprice);
     }
    //returned price
