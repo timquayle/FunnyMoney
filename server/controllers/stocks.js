@@ -34,6 +34,15 @@ module.exports = {
 
 
   }, 
+  //returns the symbols in our gains and losses history
+  getalluserGnldata(req, res){
+    console.log("getting stock history - ALL OF IT")
+    DailyGnL.find({userid: req.session.userid})
+      .then(allgnls => res.json(allgnls))
+      .catch(console.log);
+  
+  }, 
+  //returns the symbols in our gains and losses history
   getalluserGnl(req, res){
     console.log("getting stock history/controller")
     DailyGnL.distinct("symbol",{userid: req.session.userid})

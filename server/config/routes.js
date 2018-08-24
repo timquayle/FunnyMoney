@@ -45,9 +45,12 @@ module.exports = function(app) {
     console.log('Updating our daily totals table', req.body);
     stocks.updateDailytotals(req, res);
   })
-
-    app.get('/getallusergnl',(req, res, next) =>{
+  app.get('/getallusergnldata',(req, res, next) =>{
     console.log('we are getting a users daily  gains n losses');
+   stocks.getalluserGnldata(req, res);
+  })
+    app.get('/getallusergnl',(req, res, next) =>{
+    console.log('we are getting a users symbols from daily gains n losses');
    stocks.getalluserGnl(req, res);
   })
   app.get('/getusersymgnl/:symbol',(req, res, next) =>{

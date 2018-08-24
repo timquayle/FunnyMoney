@@ -1,3 +1,7 @@
 a{
     margin-left:10px;
 }
+tr:nth-child(even) {
+    background-color: #041474;
+    color:white;
+}

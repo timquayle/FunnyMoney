@@ -14,3 +14,25 @@
 
 <a [routerLink]="['/history/daily/'] +symbol" >{{symbol}}</a>
 </div>
+
+    <fieldset>
+        <legend>Daily Winners and Losers</legend>
+        <table>
+            <tr>
+              <th>Date</th>
+              <th>Biggest Gainer</th> 
+              <th>Value</th>
+              <th>Biggest Loser</th>
+              <th>Value</th>
+            </tr>
+       
+        <tr *ngFor="let hl of dailyhlarray">
+            <td>{{hl.date}}</td>
+            <td>{{hl.symhigh}} </td> 
+            <td>{{hl.symhighvalue|currency}}</td>
+            <td>{{hl.symlow}}</td>
+            <td>{{hl.symlowvalue|currency}}</td>
+          </tr>
+          </table>
+  
+</fieldset>

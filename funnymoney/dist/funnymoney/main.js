@@ -350,8 +350,12 @@ var ApiService = /** @class */ (function () {
         return this.http.get('/getusersymgnl/' + symbol);
     };
     ApiService.prototype.getallUsergnl = function () {
-        console.log('inservice getting a users gains and losses');
+        console.log('inservice getting a users gains and losses symbols');
         return this.http.get('/getallusergnl');
+    };
+    ApiService.prototype.getallUsergnldata = function () {
+        console.log('inservice getting a users gains and losses');
+        return this.http.get('/getallusergnldata');
     };
     ApiService.prototype.updateDailytotals = function (stock) {
         console.log('inservice updating totals', stock);
@@ -599,7 +603,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "a{\r\n    margin-left:10px;\r\n}"
+module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #041474;\r\n    color:white;\r\n}"
 
 /***/ }),
 
@@ -610,7 +614,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td>{{hl.date}}</td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n          </tr>\n          </table>\n  \n</fieldset>"
 
 /***/ }),
 
@@ -626,6 +630,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HistoryComponent", function() { return HistoryComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
+/* harmony import */ var _models_dailyhl__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../models/dailyhl */ "./src/app/models/dailyhl.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -637,20 +642,69 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var HistoryComponent = /** @class */ (function () {
     function HistoryComponent(apiService) {
         this.apiService = apiService;
         this.chart = [];
-        this.mygnls = [];
+        this.mygnldata = [];
         this.mysymbols = [];
+        this.dailyhl = new _models_dailyhl__WEBPACK_IMPORTED_MODULE_2__["Dailyhl"];
+        this.dailyhlarray = [];
     }
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //get all symbols in our portfolio
         var o = this.apiService.getallUsergnl();
         o.subscribe(function (response) {
             _this.mysymbols = response;
-            console.log("all my stox", _this.mysymbols);
-            console.log("0 stock", _this.mygnls[0]);
+            console.log("all my symbols", _this.mysymbols);
+            var o2 = _this.apiService.getallUsergnldata();
+            o2.subscribe(function (response) {
+                _this.mygnldata = response;
+                console.log("all my gains and losses data", _this.mygnldata);
+                //step 1 --get all 'distinct' 'date' values from the array
+                var unique = {};
+                var dates = [];
+                _this.mygnldata.forEach(function (x) {
+                    if (!unique[x.date]) {
+                        dates.push(x.date);
+                        unique[x.date] = true;
+                    }
+                });
+                console.log("YOURDATES", dates);
+                var dlength = dates.length;
+                var foo = [];
+                console.log("DATES count", dlength);
+                //step 2 --build new arrays based on these dates, populate these arrays based on date==collected dates
+                //retain our parent scope as we dive down furter into callback hell
+                var self = _this;
+                dates.forEach(function (dat) {
+                    var temparray = [];
+                    self.mygnldata.forEach(function (el) {
+                        //load each dates gains and losses into its own array
+                        if (el.date === dat) {
+                            temparray.push(el);
+                        }
+                    });
+                    //sort our array ascending 
+                    console.log("TA", temparray);
+                    temparray.sort(function (a, b) {
+                        return a.netgnl - b.netgnl;
+                    });
+                    //load our object with our sorted values
+                    self.dailyhl = new _models_dailyhl__WEBPACK_IMPORTED_MODULE_2__["Dailyhl"]();
+                    var arrlength = temparray.length;
+                    self.dailyhl.date = temparray[0].date;
+                    self.dailyhl.symlow = temparray[0].symbol;
+                    self.dailyhl.symlowvalue = temparray[0].netgnl;
+                    self.dailyhl.symhigh = temparray[arrlength - 1].symbol;
+                    self.dailyhl.symhighvalue = temparray[arrlength - 1].netgnl;
+                    //push our object into an array
+                    self.dailyhlarray.push(self.dailyhl);
+                    console.log("AR", self.dailyhlarray);
+                });
+            });
         });
     };
     HistoryComponent = __decorate([
@@ -1256,6 +1310,31 @@ var LogregComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], LogregComponent);
     return LogregComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/models/dailyhl.ts":
+/*!***********************************!*\
+  !*** ./src/app/models/dailyhl.ts ***!
+  \***********************************/
+/*! exports provided: Dailyhl */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Dailyhl", function() { return Dailyhl; });
+var Dailyhl = /** @class */ (function () {
+    function Dailyhl() {
+        this.date = '';
+        this.symhigh = '';
+        this.symhighvalue = 0;
+        this.symlow = '';
+        this.symlowvalue = 0;
+    }
+    return Dailyhl;
 }());
 
 

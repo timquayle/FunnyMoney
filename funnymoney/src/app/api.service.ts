@@ -32,8 +32,12 @@ getuserSymgnl(symbol): Observable<any[]> {
   return this.http.get<any[]>('/getusersymgnl/' +symbol);
 }
 getallUsergnl(): Observable<any[]> {
-  console.log('inservice getting a users gains and losses');
+  console.log('inservice getting a users gains and losses symbols');
   return this.http.get<any[]>('/getallusergnl');
+}
+getallUsergnldata(): Observable<any[]> {
+  console.log('inservice getting a users gains and losses');
+  return this.http.get<any[]>('/getallusergnldata');
 }
 updateDailytotals(stock){
   console.log('inservice updating totals', stock);
