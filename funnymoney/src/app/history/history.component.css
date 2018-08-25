@@ -2,6 +2,25 @@ a{
     margin-left:10px;
 }
 tr:nth-child(even) {
-    background-color: #041474;
-    color:white;
+    background-color: #dddddd;
+    color:black;
 }
+.lister{
+    background-color: black;
+    color:yellow;
+    display: inline-block;
+    vertical-align: top;
+    width:600px;
+    height:800px;
+    overflow: scroll;
+}
+tr td button{
+    background-color:blue;
+    color:yellow;
+}
+.launcher{
+    height:800px;
+    width:500px;
+    display:inline-block;
+    }
+    

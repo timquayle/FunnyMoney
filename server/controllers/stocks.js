@@ -43,7 +43,7 @@ module.exports = {
   
   }, 
   //returns the symbols in our gains and losses history
-  getalluserGnl(req, res){
+   getalluserGnl(req, res){
     console.log("getting stock history/controller")
     DailyGnL.distinct("symbol",{userid: req.session.userid})
       .then(allgnls => res.json(allgnls))
@@ -52,7 +52,9 @@ module.exports = {
   }, 
  
   getuserDailygnl(req, res){
-    DailyGnL.find(  {$and: [ {'userid':  req.params.id},{ 'date': req.params.date }  ] } )
+    console.log("PPPPPPPPPP",req.session.userid, req.params.date)
+    
+    DailyGnL.find({$and: [ {'userid':  req.session.userid},{ 'date': req.params.date }  ] } )
       .then(dailytot => res.json(dailytot))
       .catch(console.log);
   

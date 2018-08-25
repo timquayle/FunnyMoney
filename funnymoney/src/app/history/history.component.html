@@ -1,5 +1,6 @@
 <p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
 <h1>Stock Histories</h1>
+<div class="launcher">
 <h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>
 <h2>Daily Gains And Losses Data</h2>
 <div *ngFor="let symbol of mysymbols">
@@ -14,7 +15,8 @@
 
 <a [routerLink]="['/history/daily/'] +symbol" >{{symbol}}</a>
 </div>
-
+</div>
+<div class="lister">
     <fieldset>
         <legend>Daily Winners and Losers</legend>
         <table>
@@ -24,15 +26,28 @@
               <th>Value</th>
               <th>Biggest Loser</th>
               <th>Value</th>
+              <th>Daily Total</th>
             </tr>
        
         <tr *ngFor="let hl of dailyhlarray">
-            <td>{{hl.date}}</td>
+            <td><button (click)="showDailygnl(hl.date)">{{hl.date}}</button></td>
             <td>{{hl.symhigh}} </td> 
             <td>{{hl.symhighvalue|currency}}</td>
             <td>{{hl.symlow}}</td>
             <td>{{hl.symlowvalue|currency}}</td>
+            <td>{{hl.totaldailygnl|currency}}</td>
           </tr>
           </table>
   
 </fieldset>
+<div *ngIf="showingdaily">
+<fieldset>
+    <legend>Daily Totals - {{dtsdate}} </legend>
+<div *ngFor="let daily of dts">
+   
+    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>
+</div>
+</fieldset>
+</div>
+
+</div>

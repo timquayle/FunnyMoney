@@ -385,9 +385,9 @@ var ApiService = /** @class */ (function () {
         console.log('inservice selling stock', stock);
         return this.http.post('/sellstock', stock);
     };
-    ApiService.prototype.getuserDailyGnL = function (userid, date) {
+    ApiService.prototype.getuserDailyGnL = function (date) {
         console.log('inservice getting users daily g n l');
-        return this.http.get('/getuserdailygnl/' + userid + '/' + date);
+        return this.http.get('/getuserdailygnl/' + date);
     };
     ApiService.prototype.findsym = function (sym) {
         console.log('finding symbol', sym);
@@ -603,7 +603,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #041474;\r\n    color:white;\r\n}"
+module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.lister{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:600px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\ntr td button{\r\n    background-color:blue;\r\n    color:yellow;\r\n}\r\n.launcher{\r\n    height:800px;\r\n    width:500px;\r\n    display:inline-block;\r\n    }\r\n    "
 
 /***/ }),
 
@@ -614,7 +614,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td>{{hl.date}}</td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n          </tr>\n          </table>\n  \n</fieldset>"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div class=\"launcher\">\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n</div>\n<div class=\"lister\">\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n              <th>Daily Total</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td><button (click)=\"showDailygnl(hl.date)\">{{hl.date}}</button></td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n            <td>{{hl.totaldailygnl|currency}}</td>\n          </tr>\n          </table>\n  \n</fieldset>\n<div *ngIf=\"showingdaily\">\n<fieldset>\n    <legend>Daily Totals - {{dtsdate}} </legend>\n<div *ngFor=\"let daily of dts\">\n   \n    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>\n</div>\n</fieldset>\n</div>\n\n</div>"
 
 /***/ }),
 
@@ -651,6 +651,9 @@ var HistoryComponent = /** @class */ (function () {
         this.mysymbols = [];
         this.dailyhl = new _models_dailyhl__WEBPACK_IMPORTED_MODULE_2__["Dailyhl"];
         this.dailyhlarray = [];
+        this.dts = [];
+        this.showingdaily = false;
+        this.dtsdate = '';
     }
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -700,11 +703,28 @@ var HistoryComponent = /** @class */ (function () {
                     self.dailyhl.symlowvalue = temparray[0].netgnl;
                     self.dailyhl.symhigh = temparray[arrlength - 1].symbol;
                     self.dailyhl.symhighvalue = temparray[arrlength - 1].netgnl;
+                    var daytotal = 0;
+                    //our daily net totals
+                    temparray.forEach(function (val) {
+                        daytotal = daytotal + val.netgnl;
+                    });
+                    self.dailyhl.totaldailygnl = daytotal;
                     //push our object into an array
                     self.dailyhlarray.push(self.dailyhl);
                     console.log("AR", self.dailyhlarray);
                 });
             });
+        });
+    };
+    HistoryComponent.prototype.showDailygnl = function (date) {
+        var _this = this;
+        this.showingdaily = true;
+        console.log("DailyGnL", date);
+        this.dtsdate = date;
+        var o = this.apiService.getuserDailyGnL(date);
+        o.subscribe(function (response) {
+            _this.dts = response;
+            console.log("DT", _this.dts);
         });
     };
     HistoryComponent = __decorate([
@@ -993,14 +1013,14 @@ var HomepageComponent = /** @class */ (function () {
         gnl_obj.netgnl = (j.closeprice - buyprice) * amount;
         return gnl_obj;
     };
-    HomepageComponent.prototype.getusergnl = function () {
-        var _this = this;
-        var o = this.apiService.getuserDailyGnL("5b6372c33ec8221a24da48f9", "2018-08-08");
-        o.subscribe(function (response) {
-            _this.daily_totals = response;
-            console.log("Tim's totals:", _this.daily_totals);
-        });
-    };
+    /*
+    getusergnl(){
+      let o = this.apiService.getuserDailyGnL("5b6372c33ec8221a24da48f9","2018-08-08");
+      o.subscribe(
+        (response) => {this.daily_totals = response;
+          console.log("Tim's totals:",this.daily_totals);}
+      )
+    } */
     //method that searches our stock listing for a symbol and security name, given a partial security name
     HomepageComponent.prototype.findSym = function (event, findsym) {
         var _this = this;
@@ -1333,6 +1353,7 @@ var Dailyhl = /** @class */ (function () {
         this.symhighvalue = 0;
         this.symlow = '';
         this.symlowvalue = 0;
+        this.totaldailygnl = 0;
     }
     return Dailyhl;
 }());

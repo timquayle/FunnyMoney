@@ -95,8 +95,8 @@ module.exports = function(app) {
     stocks.updateDailygnl(req, res);
   })
 
-  app.get('/getuserdailygnl/:id/:date',(req, res, next) =>{
-    console.log('Get user daily gnl',req.params.id, req.params.date);
+  app.get('/getuserdailygnl/:date',(req, res, next) =>{
+    console.log('Get user daily gnl',req.params.date);
    stocks.getuserDailygnl(req, res);
   })
   app.get('/findsym/:id',(req, res, next) =>{

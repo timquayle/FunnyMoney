@@ -285,14 +285,14 @@ gnl_obj.date = j.date;
 gnl_obj.netgnl = (j.closeprice - buyprice)*amount;
 return gnl_obj;
 }
-
+/*
 getusergnl(){
   let o = this.apiService.getuserDailyGnL("5b6372c33ec8221a24da48f9","2018-08-08");
   o.subscribe(
     (response) => {this.daily_totals = response;
       console.log("Tim's totals:",this.daily_totals);}
   )
-}
+} */
 //method that searches our stock listing for a symbol and security name, given a partial security name
 findSym(event: Event,findsym: NgForm){
 event.preventDefault();

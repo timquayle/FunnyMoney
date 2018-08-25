@@ -68,9 +68,9 @@ sellStock(stock){
   console.log('inservice selling stock', stock);
   return this.http.post('/sellstock',stock)
 }
-getuserDailyGnL(userid, date): Observable<any[]> {
+getuserDailyGnL(date): Observable<any[]> {
   console.log('inservice getting users daily g n l');
-  return this.http.get<any[]>('/getuserdailygnl/'+userid+'/'+date);
+  return this.http.get<any[]>('/getuserdailygnl/'+date);
 }
 findsym(sym) {
   console.log('finding symbol',sym);

@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService} from '../api.service';
-import {Chart} from 'chart.js';
 import {Dailyhl} from '../models/dailyhl';
 @Component({
   selector: 'app-history',
@@ -13,6 +12,9 @@ mygnldata = [];
 mysymbols = [];
 dailyhl: Dailyhl = new Dailyhl;
 dailyhlarray = [];
+dts= [];
+showingdaily=false;
+dtsdate='';
   constructor(private apiService: ApiService) { }
 
   ngOnInit() {
@@ -57,13 +59,20 @@ console.log("DATES count",dlength)
       }); 
      //load our object with our sorted values
      self.dailyhl = new Dailyhl();
+    
      let arrlength = temparray.length;
       self.dailyhl.date = temparray[0].date;
       self.dailyhl.symlow = temparray[0].symbol;
       self.dailyhl.symlowvalue = temparray[0].netgnl;
       self.dailyhl.symhigh = temparray[arrlength -1].symbol;
       self.dailyhl.symhighvalue = temparray[arrlength -1].netgnl;
-     //push our object into an array
+      let daytotal=0;
+     //our daily net totals
+      temparray.forEach(function (val) {
+        daytotal=daytotal+val.netgnl;
+        });
+       self.dailyhl.totaldailygnl = daytotal;
+      //push our object into an array
       self.dailyhlarray.push(self.dailyhl);
       console.log("AR",self.dailyhlarray);
     
@@ -78,5 +87,15 @@ console.log("DATES count",dlength)
     
   
   }
-
+  showDailygnl(date){
+   this.showingdaily=true;
+    console.log("DailyGnL",date);
+    this.dtsdate=date;
+  let o = this.apiService.getuserDailyGnL(date);
+  o.subscribe( (response) => {this.dts = response;
+   
+    console.log("DT",this.dts);
+  })
+ 
+}
 }
