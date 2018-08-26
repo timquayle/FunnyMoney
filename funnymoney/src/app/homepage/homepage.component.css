@@ -1,3 +1,4 @@
+
 a{
     margin-left:10px;
 }
@@ -25,3 +26,12 @@ tr:nth-child(even) {
     background-color: #dddddd;
     color:black;
 }
+.tooltip {
+    display:none;
+    background:transparent url(/media/img/tooltip/black_arrow.png);
+    font-size:12px;
+    height:70px;
+    width:160px;
+    padding:25px;
+    color:#eee;
+  }

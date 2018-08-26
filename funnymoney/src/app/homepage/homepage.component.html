@@ -1,9 +1,13 @@
 
+
 <div class="wrapper">
 <p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
+
 <div class="searchbuy">
-<form (submit)="findSym($event,findsym)" #findsym='ngForm'>
-  <input type ="text" name="sym" id="symid" [ngModel]="symid" required #sym="ngModel">
+    <fieldset>
+        <legend>Stock Store</legend>
+  <form (submit)="findSym($event,findsym)" #findsym='ngForm'>
+  <input title="Enter a company's keyword(Apple,Microsoft,Tesla) to find its stock symbol"type ="text" name="sym" id="symid" [ngModel]="symid" required #sym="ngModel">
   <button>Find Symbol</button>
   
   
@@ -37,6 +41,7 @@
   </form>
   </fieldset>
 </div>
+</fieldset>
 </div>
 <div  class="info">
 <div class="listing" *ngIf="!sellingstock">

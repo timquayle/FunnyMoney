@@ -13,6 +13,7 @@ import { HistoryComponent } from './history/history.component';
 import { RulesComponent } from './rules/rules.component';
 import { SymgraphComponent } from './symgraph/symgraph.component';
 import { SymgraphdailyComponent } from './symgraphdaily/symgraphdaily.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 @NgModule({
   declarations: [
     AppComponent,
@@ -25,6 +26,7 @@ import { SymgraphdailyComponent } from './symgraphdaily/symgraphdaily.component'
     SymgraphdailyComponent,
   ],
   imports: [
+    NgbModule.forRoot(),
     BrowserModule,
     AppRoutingModule,
     FormsModule,

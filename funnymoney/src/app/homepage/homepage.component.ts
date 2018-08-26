@@ -4,10 +4,15 @@ import { UserService} from '../user.service';
 import { FormsModule } from '@angular/forms';
 import {NgForm} from '@angular/forms';
 import {Stock} from '../models/stock';
+import * as $ from 'jquery';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {  ViewEncapsulation } from '@angular/core';
+declare var jQuery: any;
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
-  styleUrls: ['./homepage.component.css']
+  styleUrls: [ './homepage.component.css' ],
+  encapsulation: ViewEncapsulation.None
 })
 
 export class HomepageComponent implements OnInit {
@@ -41,6 +46,9 @@ export class HomepageComponent implements OnInit {
 private userService: UserService) { }
 
   ngOnInit() {
+   
+        
+                         
     let o = this.apiService.getusersStock();
     o.subscribe( (response) =>{ this.mystocks = response;
       console.log("all my stox",this.mystocks);

@@ -543,12 +543,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rules_rules_component__WEBPACK_IMPORTED_MODULE_12__ = __webpack_require__(/*! ./rules/rules.component */ "./src/app/rules/rules.component.ts");
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
 /* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
+/* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -580,6 +582,7 @@ var AppModule = /** @class */ (function () {
                 _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__["SymgraphdailyComponent"],
             ],
             imports: [
+                _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__["NgbModule"].forRoot(),
                 _angular_platform_browser__WEBPACK_IMPORTED_MODULE_0__["BrowserModule"],
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
@@ -614,7 +617,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div class=\"launcher\">\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n</div>\n<div class=\"lister\">\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n              <th>Daily Total</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td><button (click)=\"showDailygnl(hl.date)\">{{hl.date}}</button></td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n            <td>{{hl.totaldailygnl|currency}}</td>\n          </tr>\n          </table>\n  \n</fieldset>\n<div *ngIf=\"showingdaily\">\n<fieldset>\n    <legend>Daily Totals - {{dtsdate}} </legend>\n<div *ngFor=\"let daily of dts\">\n   \n    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>\n</div>\n</fieldset>\n</div>\n\n</div>"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div class=\"launcher\">\n<fieldset>\n<legend>Stock Graphs</legend>\n    <h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n</fieldset>\n</div>\n<div class=\"lister\">\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n              <th>Daily Total</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td><button (click)=\"showDailygnl(hl.date)\"title=\"Click on the date to see all the stocks in your portfolios activity for the day\">{{hl.date}}</button></td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n            <td>{{hl.totaldailygnl|currency}}</td>\n          </tr>\n          </table>\n  \n</fieldset>\n<div *ngIf=\"showingdaily\">\n<fieldset>\n    <legend>Daily Totals - {{dtsdate}} </legend>\n<div *ngFor=\"let daily of dts\">\n   \n    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>\n</div>\n</fieldset>\n</div>\n\n</div>"
 
 /***/ }),
 
@@ -749,7 +752,7 @@ var HistoryComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "a{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:500px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\n.searchbuy{\r\nheight:800px;\r\nwidth:500px;\r\ndisplay:inline-block;\r\n}\r\ntr td button{\r\n    background-color:blue;\r\n    color:yellow;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}"
+module.exports = "\r\na{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:500px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\n.searchbuy{\r\nheight:800px;\r\nwidth:500px;\r\ndisplay:inline-block;\r\n}\r\ntr td button{\r\n    background-color:blue;\r\n    color:yellow;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.tooltip {\r\n    display:none;\r\n    background:transparent url(/media/img/tooltip/black_arrow.png);\r\n    font-size:12px;\r\n    height:70px;\r\n    width:160px;\r\n    padding:25px;\r\n    color:#eee;\r\n  }"
 
 /***/ }),
 
@@ -760,7 +763,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    background-c
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n<div class=\"wrapper\">\n<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<div class=\"searchbuy\">\n<form (submit)=\"findSym($event,findsym)\" #findsym='ngForm'>\n  <input type =\"text\" name=\"sym\" id=\"symid\" [ngModel]=\"symid\" required #sym=\"ngModel\">\n  <button>Find Symbol</button>\n  \n  \n  </form>\n<div *ngIf=\"searching\">\n<div *ngIf=\"notfound\">Symbol not found!</div>\n<div *ngIf=\"!notfound\">\n<div *ngFor=\"let sym of sym_data\">\n  <h3>Symbol: {{sym.symbol}}</h3>\n  <h4>Security Name: {{sym.securityName}}</h4>\n  <button (click) = \"symSubmit(sym.symbol,sym.securityName)\">Find Current Buy Price?</button>\n</div>\n</div>\n\n</div>\n\n<div *ngIf=\"buystock\">\n <fieldset>\n   <legend>Purchase Stock</legend>\n  <form (submit)=\"buyStock($event,buyForm)\" #buyForm='ngForm'>\n  <p>Symbol: {{stock.symbol}}</p>\n  <p>Buyprice: {{stock.buyprice|currency}}</p>\n  <p>Amount: <input type=\"number\" name=\"amount\" id=\"amountid\"\n    [ngModel]=\"stock.amount\"\n    required\n    #amount=\"ngModel\">\n    <input type=\"hidden\" name=\"sname\" id=\"secnameid\" value=\"{{secname}}\" [ngModel]=\"secname\" #sname=\"ngModel\">\n    <input type=\"hidden\" name=\"buyprice\" id=\"priceid\" value=\"{{stock.buyprice}}\" [ngModel]=\"stock.buyprice\" #buyprice=\"ngModel\">\n    <input type=\"hidden\" name=\"symbol\" id=\"symbolid\"  value=\"{{stock.symbol}}\" [ngModel]=\"stock.symbol\" #symbol=\"ngModel\">\n    <button>Buy This Stock</button>\n  </form>\n  </fieldset>\n</div>\n</div>\n<div  class=\"info\">\n<div class=\"listing\" *ngIf=\"!sellingstock\">\n  <fieldset>\n    <legend>Personal Info</legend>\n     \n    <h1>Hello, {{currentuser.firstname}} </h1>\n    <h2>Money Available: {{currentuser.money|currency}}</h2>\n    <h2>Total Profit/Score: {{currentuser.score|currency}}</h2>\n   <div *ngIf=\"mystocks.length !==0\">\n    <H2>My Current Stocks:</H2>\n    <table>\n        <tr>\n          <th>Stock Symbol</th>\n          <th>Securities Name</th> \n          <th>Shares/Amount</th>\n          <th>BuyPrice</th>\n          <th>Actions</th>\n\n        </tr>\n    <tr *ngFor=\"let mystock of mystocks\">\n    \n      <td>{{mystock.symbol}}</td>\n      <td>{{mystock.sname}} </td> \n      <td>{{mystock.amount}}</td>\n      <td>{{mystock.buyprice|currency}}</td>\n      <td><button (click)=\"onSell(mystock)\">Sell</button></td>\n    </tr>\n    </table>\n   </div>\n  </fieldset>\n    </div>\n   \n   \n   \n   \n    <div class=\"selling\" *ngIf=\"sellingstock\">\n        <fieldset>\n            <legend>Selling Stock</legend>\n      <form #sellForm='ngForm' (submit)=\"sellmyStock($event,sellForm)\">\n         <h2>Stock: {{sellstock.symbol}}</h2>\n         <h4>Buy Price: {{sellstock.buyprice}}</h4>\n         <h4>Selling Price: {{stock.buyprice}} </h4>\n         <h4>Number of Shares: {{sellstock.amount}}</h4>\n         <input type=\"number\" name=\"amount\" id=\"amountid\" [ngModel]=\"amount\" #amount=\"ngModel\" placeholder=\"{{sellstock.amount}}\">\n         <input type=\"hidden\" value=\"{{sellstock.symbol}}\" name=\"symbol\" [ngModel]=\"sellstock.symbol\" #symbol=\"ngModel\">\n         <input type=\"hidden\" value=\"{{stock.buyprice}}\" name=\"sellprice\" [ngModel]=\"stock.buyprice\" #sellprice=\"ngModel\">\n         <input type=\"hidden\" value=\"{{sellstock._id}}\" name=\"id\" [ngModel]=\"sellstock._id\" #id=\"ngModel\">\n         <Button>Sell Stock</Button>\n      \n        </form>\n      </fieldset>\n        </div>\n      </div>\n  </div>\n \n"
+module.exports = "\n\n<div class=\"wrapper\">\n<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n\n<div class=\"searchbuy\">\n    <fieldset>\n        <legend>Stock Store</legend>\n  <form (submit)=\"findSym($event,findsym)\" #findsym='ngForm'>\n  <input title=\"Enter a company's keyword(Apple,Microsoft,Tesla) to find its stock symbol\"type =\"text\" name=\"sym\" id=\"symid\" [ngModel]=\"symid\" required #sym=\"ngModel\">\n  <button>Find Symbol</button>\n  \n  \n  </form>\n<div *ngIf=\"searching\">\n<div *ngIf=\"notfound\">Symbol not found!</div>\n<div *ngIf=\"!notfound\">\n<div *ngFor=\"let sym of sym_data\">\n  <h3>Symbol: {{sym.symbol}}</h3>\n  <h4>Security Name: {{sym.securityName}}</h4>\n  <button (click) = \"symSubmit(sym.symbol,sym.securityName)\">Find Current Buy Price?</button>\n</div>\n</div>\n\n</div>\n\n<div *ngIf=\"buystock\">\n <fieldset>\n   <legend>Purchase Stock</legend>\n  <form (submit)=\"buyStock($event,buyForm)\" #buyForm='ngForm'>\n  <p>Symbol: {{stock.symbol}}</p>\n  <p>Buyprice: {{stock.buyprice|currency}}</p>\n  <p>Amount: <input type=\"number\" name=\"amount\" id=\"amountid\"\n    [ngModel]=\"stock.amount\"\n    required\n    #amount=\"ngModel\">\n    <input type=\"hidden\" name=\"sname\" id=\"secnameid\" value=\"{{secname}}\" [ngModel]=\"secname\" #sname=\"ngModel\">\n    <input type=\"hidden\" name=\"buyprice\" id=\"priceid\" value=\"{{stock.buyprice}}\" [ngModel]=\"stock.buyprice\" #buyprice=\"ngModel\">\n    <input type=\"hidden\" name=\"symbol\" id=\"symbolid\"  value=\"{{stock.symbol}}\" [ngModel]=\"stock.symbol\" #symbol=\"ngModel\">\n    <button>Buy This Stock</button>\n  </form>\n  </fieldset>\n</div>\n</fieldset>\n</div>\n<div  class=\"info\">\n<div class=\"listing\" *ngIf=\"!sellingstock\">\n  <fieldset>\n    <legend>Personal Info</legend>\n     \n    <h1>Hello, {{currentuser.firstname}} </h1>\n    <h2>Money Available: {{currentuser.money|currency}}</h2>\n    <h2>Total Profit/Score: {{currentuser.score|currency}}</h2>\n   <div *ngIf=\"mystocks.length !==0\">\n    <H2>My Current Stocks:</H2>\n    <table>\n        <tr>\n          <th>Stock Symbol</th>\n          <th>Securities Name</th> \n          <th>Shares/Amount</th>\n          <th>BuyPrice</th>\n          <th>Actions</th>\n\n        </tr>\n    <tr *ngFor=\"let mystock of mystocks\">\n    \n      <td>{{mystock.symbol}}</td>\n      <td>{{mystock.sname}} </td> \n      <td>{{mystock.amount}}</td>\n      <td>{{mystock.buyprice|currency}}</td>\n      <td><button (click)=\"onSell(mystock)\">Sell</button></td>\n    </tr>\n    </table>\n   </div>\n  </fieldset>\n    </div>\n   \n   \n   \n   \n    <div class=\"selling\" *ngIf=\"sellingstock\">\n        <fieldset>\n            <legend>Selling Stock</legend>\n      <form #sellForm='ngForm' (submit)=\"sellmyStock($event,sellForm)\">\n         <h2>Stock: {{sellstock.symbol}}</h2>\n         <h4>Buy Price: {{sellstock.buyprice}}</h4>\n         <h4>Selling Price: {{stock.buyprice}} </h4>\n         <h4>Number of Shares: {{sellstock.amount}}</h4>\n         <input type=\"number\" name=\"amount\" id=\"amountid\" [ngModel]=\"amount\" #amount=\"ngModel\" placeholder=\"{{sellstock.amount}}\">\n         <input type=\"hidden\" value=\"{{sellstock.symbol}}\" name=\"symbol\" [ngModel]=\"sellstock.symbol\" #symbol=\"ngModel\">\n         <input type=\"hidden\" value=\"{{stock.buyprice}}\" name=\"sellprice\" [ngModel]=\"stock.buyprice\" #sellprice=\"ngModel\">\n         <input type=\"hidden\" value=\"{{sellstock._id}}\" name=\"id\" [ngModel]=\"sellstock._id\" #id=\"ngModel\">\n         <Button>Sell Stock</Button>\n      \n        </form>\n      </fieldset>\n        </div>\n      </div>\n  </div>\n \n"
 
 /***/ }),
 
@@ -787,6 +790,7 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+
 
 
 
@@ -1114,7 +1118,8 @@ var HomepageComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-homepage',
             template: __webpack_require__(/*! ./homepage.component.html */ "./src/app/homepage/homepage.component.html"),
-            styles: [__webpack_require__(/*! ./homepage.component.css */ "./src/app/homepage/homepage.component.css")]
+            styles: [__webpack_require__(/*! ./homepage.component.css */ "./src/app/homepage/homepage.component.css")],
+            encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None
         }),
         __metadata("design:paramtypes", [_api_service__WEBPACK_IMPORTED_MODULE_1__["ApiService"],
             _user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
@@ -1403,7 +1408,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Welcome to Funny Money</h1>\n<h4>The Name of the Game is \"FunnyMoney\"..... Well is it a game? is it a stock Buying/Selling Simulator? Is it Stock Trading \"Training Wheels?\" Yes, Yes and Yes...</h4>\n\n<h4>You get $100,000 to invest in any NASDAQ/Dow Jones trading symbols you wish. At the end of each trading day (4pm EST), the gains and losses of your stock portfolio are tallied up and your \"Score\" is your net profit.</h4> \n\n<h4>FunnyMoney uses Actual, Realtime, Stock Buying/Selling Prices, The only difference is the money is not real, so you invest strictly for fun/entertainment purposes. </h4>\n<h4>You may sell your current stock at any time to increase your money holdings and purchase any other stock you wish. </h4>\n<h4>Check the \"LeaderBoard\" section to see how you rank next to your stock trading peers. </h4>\n<h4>Check the \"History\" section to see the historical behavior of each of the stocks in your portfolio. </h4> \n\n<h4>Disclaimer: FunnyMoney \"Money\" has no actual value and the game is played strictly for entertainment purposes. </h4>"
+module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Welcome to Funny Money</h1>\n<h4>The Name of the Game is \"FunnyMoney\"..... Well is it a game? is it a stock Buying/Selling Simulator? Is it Stock Trading \"Training Wheels?\" Yes, Yes and Yes...</h4>\n\n<h4>You get $100,000 to invest in any NASDAQ/Dow Jones trading symbols you wish. At the end of each trading day (4pm EST), the gains and losses of your stock portfolio are tallied up and your \"Score\" The diffference between what you bought the stock at, and what it closed at.</h4> \n\n<h4>FunnyMoney uses Actual, Realtime, Stock Buying/Selling Prices, The only difference is the money is not real, so you invest strictly for fun/entertainment purposes. </h4>\n<h4>You may sell your current stock at any time to increase your money holdings and purchase any other stock you wish. </h4>\n<h4>Check the \"LeaderBoard\" section to see how you rank next to your stock trading peers. </h4>\n<h4>Check the \"History\" section to see the historical behavior of each of the stocks in your portfolio, Including graphs of your daily gains and losses per stock, and daily closing graphs. </h4> \n<h4>Disclaimer: FunnyMoney \"Money\" has no actual value and the game is played strictly for entertainment purposes. </h4>\n<h2>To get started, click \"Proceed to Home\", to go to your homepage, then simply begin by entering a company keyword(i.e. \"Microsoft or \"Apple\") in the \"find symbol\" Input box</h2>\n<button (click)=\"goHome()\">Proceed to Home</button>"
 
 /***/ }),
 
@@ -1418,6 +1423,7 @@ module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RulesComponent", function() { return RulesComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -1428,10 +1434,15 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 
+
 var RulesComponent = /** @class */ (function () {
-    function RulesComponent() {
+    function RulesComponent(router) {
+        this.router = router;
     }
     RulesComponent.prototype.ngOnInit = function () {
+    };
+    RulesComponent.prototype.goHome = function () {
+        this.router.navigate(['/home']);
     };
     RulesComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1439,7 +1450,7 @@ var RulesComponent = /** @class */ (function () {
             template: __webpack_require__(/*! ./rules.component.html */ "./src/app/rules/rules.component.html"),
             styles: [__webpack_require__(/*! ./rules.component.css */ "./src/app/rules/rules.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"]])
     ], RulesComponent);
     return RulesComponent;
 }());
