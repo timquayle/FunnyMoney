@@ -109,7 +109,12 @@ buyStock(event: Event,form: NgForm){
   console.log("Buying Stock",form.value)
  let totalspent = form.value.amount*form.value.buyprice;
   console.log("Amountspent:",totalspent);
-if(this.currentuser.money < totalspent) {
+  if(form.value.amount < 1){
+    alert("Amount cannot be less than 1 share, asshat")
+    this.buystock=false;
+    return;
+  }
+  if(this.currentuser.money < totalspent) {
   alert("Cannot spend more money than you have!");
   this.buystock=false;
   return;
