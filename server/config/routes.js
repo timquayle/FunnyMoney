@@ -49,7 +49,11 @@ module.exports = function(app) {
     console.log('we are getting a users daily  gains n losses');
    stocks.getalluserGnldata(req, res);
   })
-    app.get('/getallusergnl',(req, res, next) =>{
+  app.get('/getalluserstocksym',(req, res, next) =>{
+    console.log('we are getting a users symbols from stocks listing');
+   stocks.getalluserStocksym(req, res);
+  })
+  app.get('/getallusergnl',(req, res, next) =>{
     console.log('we are getting a users symbols from daily gains n losses');
    stocks.getalluserGnl(req, res);
   })

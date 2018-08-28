@@ -19,7 +19,7 @@ dtsdate='';
 
   ngOnInit() {
     //get all symbols in our portfolio
-    let o = this.apiService.getallUsergnl();
+    let o = this.apiService.getalluserStocksym();
     o.subscribe( (response) =>{ this.mysymbols = response;
       console.log("all my symbols",this.mysymbols);
      let o2 = this.apiService.getallUsergnldata();

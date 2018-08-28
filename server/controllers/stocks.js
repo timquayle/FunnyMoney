@@ -50,7 +50,14 @@ module.exports = {
       .catch(console.log);
   
   }, 
- 
+  //get distinct listing of all symbols in a users stock portfolio
+  getalluserStocksym(req, res){
+    console.log("getting stock symbols history/controller")
+    Stocks.distinct("symbol",{userid: req.session.userid})
+      .then(symbols => res.json(symbols))
+      .catch(console.log);
+  
+  }, 
   getuserDailygnl(req, res){
     console.log("PPPPPPPPPP",req.session.userid, req.params.date)
     

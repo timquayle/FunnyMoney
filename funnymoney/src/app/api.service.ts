@@ -26,6 +26,11 @@ getsymStockdata(symbol) {
   console.log('inservice getting symbol data for',symbol);
   return this.http.get('/getsymstockdata/' +symbol);
 }
+//getalluserstocksym
+getalluserStocksym(): Observable<any[]> {
+  console.log('getting all distinct stock symbols - inservice');
+  return this.http.get<any[]>('/getalluserstocksym');
+}
 
 getuserSymgnl(symbol): Observable<any[]> {
   console.log('inservice getting symbol history for a user',symbol);

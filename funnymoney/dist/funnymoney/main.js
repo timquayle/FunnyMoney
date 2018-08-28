@@ -345,6 +345,11 @@ var ApiService = /** @class */ (function () {
         console.log('inservice getting symbol data for', symbol);
         return this.http.get('/getsymstockdata/' + symbol);
     };
+    //getalluserstocksym
+    ApiService.prototype.getalluserStocksym = function () {
+        console.log('getting all distinct stock symbols - inservice');
+        return this.http.get('/getalluserstocksym');
+    };
     ApiService.prototype.getuserSymgnl = function (symbol) {
         console.log('inservice getting symbol history for a user', symbol);
         return this.http.get('/getusersymgnl/' + symbol);
@@ -661,7 +666,7 @@ var HistoryComponent = /** @class */ (function () {
     HistoryComponent.prototype.ngOnInit = function () {
         var _this = this;
         //get all symbols in our portfolio
-        var o = this.apiService.getallUsergnl();
+        var o = this.apiService.getalluserStocksym();
         o.subscribe(function (response) {
             _this.mysymbols = response;
             console.log("all my symbols", _this.mysymbols);
