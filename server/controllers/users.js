@@ -92,6 +92,8 @@ module.exports = {
                               req.session.email = req.body.email;
                               console.log(req.session.email);
                                req.session.save();
+                               res.cookie('userID', user._id.toString());
+                               res.cookie('expiration', Date.now() + 86400 * 1000);
                                res.json('valid');
                               
                           });
@@ -170,6 +172,8 @@ module.exports = {
                           req.session.email = req.body.email;
                           console.log(req.session.email);
                            req.session.save();
+                           res.cookie('userID', user._id.toString());
+                           res.cookie('expiration', Date.now() + 86400 * 1000);
                            res.json('valid');
                           
                                   });
@@ -320,10 +324,14 @@ getcontact: function(req,res) {
         },
         removesessionid: function(req,res) {
             console.log('removing sessionid!');
-                  delete req.session.userid;
-                  delete req.session.email;
-                  req.session.save();
+               //   delete req.session.userid;
+              //   delete req.session.email;
+                  req.session.destroy();
+                 // req.session.save();
+                  res.clearCookie('userID');
+                  res.clearCookie('expiration');
                   res.json('session removed')
+               
                 },
        
  usersgetall: function(req,res){

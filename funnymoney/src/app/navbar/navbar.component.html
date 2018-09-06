@@ -1,0 +1,25 @@
+<div class="jumbotron jumbotron-fluid">
+  <div class="container">
+   
+    <h1 class="display-7"> FunnyMoney</h1>
+    <p class="lead">"If its not my money, and its not your money, it must be FunnyMoney!</p> 
+  </div>
+</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <ul class="navbar-nav">
+    
+      <a class="nav-link" routerLink="/home">Home</a>
+    
+    <li class="divider"></li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/rules">Rules</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" routerLink="/leaderboard">Leaderboard</a>
+    </li>
+      <a class="nav-link" routerLink="/history">History</a>
+    <li class="nav-item">
+      <a class="nav-link" (click)="logOff($event)">Logout</a>
+    </li>
+  </ul>
+</nav>

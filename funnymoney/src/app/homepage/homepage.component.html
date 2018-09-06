@@ -1,11 +1,10 @@
 
 
 <div class="wrapper">
-<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
-
+  <app-navbar></app-navbar>
 <div class="searchbuy">
-    <fieldset>
-        <legend>Stock Store</legend>
+    <fieldset class="border p-2"  >
+        <legend class="w-auto"  >Stock Store</legend>
   <form (submit)="findSym($event,findsym)" #findsym='ngForm'>
   <input title="Enter a company's keyword(Apple,Microsoft,Tesla) to find its stock symbol"type ="text" name="sym" id="symid" [ngModel]="symid" required #sym="ngModel">
   <button>Find Symbol</button>
@@ -25,9 +24,9 @@
 </div>
 
 <div *ngIf="buystock">
- <fieldset>
-   <legend>Purchase Stock</legend>
-  <form (submit)="buyStock($event,buyForm)" #buyForm='ngForm'>
+ <fieldset class="border p-2" >
+   <legend class="w-auto" >Purchase Stock</legend>
+  <form (submit)="buyStock($event,buyForm)" #buyForm='ngForm' >
   <p>Symbol: {{stock.symbol}}</p>
   <p>Buyprice: {{stock.buyprice|currency}}</p>
   <p>Amount: <input type="number" name="amount" id="amountid"
@@ -45,8 +44,8 @@
 </div>
 <div  class="info">
 <div class="listing" *ngIf="!sellingstock">
-  <fieldset>
-    <legend>Personal Info</legend>
+  <fieldset class="border p-2" >
+    <legend class="w-auto" >Personal Info</legend>
      
     <h1>Hello, {{currentuser.firstname}} </h1>
     <h2>Money Available: {{currentuser.money|currency}}</h2>
@@ -55,7 +54,7 @@
     <H2>My Current Stocks:</H2>
     <table>
         <tr>
-          <th>Stock Symbol</th>
+          <th>Symbol</th>
           <th>Securities Name</th> 
           <th>Shares/Amount</th>
           <th>BuyPrice</th>
@@ -79,8 +78,8 @@
    
    
     <div class="selling" *ngIf="sellingstock">
-        <fieldset>
-            <legend>Selling Stock</legend>
+        <fieldset class="border p-2" >
+            <legend class="w-auto" >Selling Stock</legend>
       <form #sellForm='ngForm' (submit)="sellmyStock($event,sellForm)">
          <h2>Stock: {{sellstock.symbol}}</h2>
          <h4>Buy Price: {{sellstock.buyprice}}</h4>
@@ -97,4 +96,64 @@
         </div>
       </div>
   </div>
- 
+  <div class="backdrop" [ngStyle]="{'display':displaybuy}"></div>
+  <div class="modal" tabindex="-1" role="dialog" id="buyModal" [ngStyle]="{'display':displaybuy}" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Buying Stock</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="onCloseHandledbuy()" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{msgstr}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary"(click)="buyConfirm()" >Yes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  (click)="onCloseHandledbuy()" >No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':displayiv}"></div>
+  <div class="modal" tabindex="-1" role="dialog" id="ivModal" [ngStyle]="{'display':displayiv}" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Validation Error</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="onCloseHandlediv()" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{invalidstr}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  (click)="onCloseHandlediv()" >Ok</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="backdrop" [ngStyle]="{'display':displaysell}"></div>
+  <div class="modal" tabindex="-1" role="dialog" id="sellModal" [ngStyle]="{'display':displaysell}" >
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Selling Stock</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"(click)="onCloseHandledsell()" >
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p>{{msgstr}}</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary"(click)="sellConfirm()" >Yes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"  (click)="onCloseHandledsell()" >No</button>
+        </div>
+      </div>
+    </div>
+  </div>

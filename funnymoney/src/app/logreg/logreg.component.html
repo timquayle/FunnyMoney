@@ -1,6 +1,7 @@
 <div *ngIf="!regFlag" class="login">
-  <fieldset>
-      <legend>FunnyMoney Login</legend>
+  
+  <fieldset class="border p-2" >
+      <legend class="w-auto" >FunnyMoney Login</legend>
     <form (submit)="onLogin($event,logForm)"  #logForm='ngForm'  >
       <label for="emailidl"> Email</label><input type="text" name="email" id="emailidl"
                [ngModel]="emailidl" 
@@ -15,11 +16,13 @@
               <button>Login</button>
       </form>
      <p> Dont have an Account?<a href (click)="regUser($event)">Register</a></p>
-   </fieldset>
+  
+    </fieldset>
+    
     </div>
      <div *ngIf="regFlag" class="register">
-    <fieldset>
-        <legend>FunnyMoney Registration</legend>
+    <fieldset class="border p-2" >
+        <legend class="w-auto" >FunnyMoney Registration</legend>
         <form  (submit)="onReg($event,regForm)"  #regForm='ngForm'>
           <label for="fname"> First Name</label><input type="text" name="firstname" id="fname"
           [ngModel]="fname" 

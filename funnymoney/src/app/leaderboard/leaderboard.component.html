@@ -1,12 +1,12 @@
-<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a href (click)="logOff($event)">Log Off</a>  </p>
-<h1>Rankings</h1>
+<app-navbar></app-navbar>
+<h1 class="head">Rankings</h1>
 <div class="leaders">
 <div *ngFor="let user of users;let i = index" [attr.data-index]="i">
 <div class="profile">
-<div class="rank"> <h1>{{i+1}} {{user.firstname}}</h1> </div>
+<div class="rank"> <h2>{{i+1}} {{user.firstname}}</h2> </div>
   
-<div class="score"> <h2>  Score:{{user.score|currency}}</h2> </div>
-  <h3> {{user.email}} </h3>  
+<div class="score"> <h3>  Score:{{user.score|currency}}</h3> </div>
+  <h4> {{user.email}} </h4>  
 </div>
 </div>
 </div>

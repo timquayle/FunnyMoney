@@ -1,8 +1,8 @@
-<p><a [routerLink]="['/home']">Home</a>   <a [routerLink]="['/rules']">Rules</a><a [routerLink]="['/leaderboard']">Leaderboard</a>  <a [routerLink]="['/history']">Stock History</a>    <a href (click)="logOff($event)">Log Off</a>  </p>
+<app-navbar></app-navbar>
 <h1>Stock Histories</h1>
 <div class="launcher">
-<fieldset>
-<legend>Stock Graphs</legend>
+<fieldset class="border p-2" >
+<legend class="w-auto" >Stock Graphs</legend>
   <div *ngIf="mysymbols.length > 0">
 <h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>
 <h2>Daily Gains And Losses Data</h2>
@@ -21,8 +21,8 @@
 </fieldset>
 </div>
 <div class="lister">
-    <fieldset>
-        <legend>Daily Winners and Losers</legend>
+    <fieldset class="border p-2" >
+        <legend class="w-auto" >Daily Winners and Losers</legend>
         <div *ngIf="mygnldata.length > 0">
         <table>
             <tr>
@@ -46,8 +46,8 @@
   </div>
 </fieldset>
 <div *ngIf="showingdaily">
-<fieldset>
-    <legend>Daily Totals - {{dtsdate}} </legend>
+<fieldset class="border p-2" >
+    <legend class="w-auto"  >Daily Totals - {{dtsdate}} </legend>
 <div *ngFor="let daily of dts">
    
     <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>

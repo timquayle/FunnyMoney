@@ -430,6 +430,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./rules/rules.component */ "./src/app/rules/rules.component.ts");
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
 /* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
+/* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -445,10 +446,16 @@ var __decorate = (undefined && undefined.__decorate) || function (decorators, ta
 
 
 
-var routes = [{ path: '', component: _logreg_logreg_component__WEBPACK_IMPORTED_MODULE_2__["LogregComponent"] }, { path: 'home', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_3__["HomepageComponent"] },
-    { path: 'leaderboard', component: _leaderboard_leaderboard_component__WEBPACK_IMPORTED_MODULE_4__["LeaderboardComponent"] }, { path: 'history', component: _history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"] },
-    { path: 'rules', component: _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__["RulesComponent"] }, { path: 'history/:symbol', component: _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__["SymgraphComponent"] },
-    { path: 'history/daily/:symbol', component: _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__["SymgraphdailyComponent"] }];
+
+var routes = [{ path: '', component: _logreg_logreg_component__WEBPACK_IMPORTED_MODULE_2__["LogregComponent"] },
+    { path: 'home', component: _homepage_homepage_component__WEBPACK_IMPORTED_MODULE_3__["HomepageComponent"],
+        canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]]
+    },
+    { path: 'leaderboard', component: _leaderboard_leaderboard_component__WEBPACK_IMPORTED_MODULE_4__["LeaderboardComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
+    { path: 'history', component: _history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
+    { path: 'rules', component: _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__["RulesComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
+    { path: 'history/:symbol', component: _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__["SymgraphComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
+    { path: 'history/daily/:symbol', component: _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__["SymgraphdailyComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] }];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
@@ -549,12 +556,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
 /* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
 /* harmony import */ var _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__ = __webpack_require__(/*! @ng-bootstrap/ng-bootstrap */ "./node_modules/@ng-bootstrap/ng-bootstrap/fesm5/ng-bootstrap.js");
+/* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
+/* harmony import */ var ngx_cookie__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ngx-cookie */ "./node_modules/ngx-cookie/fesm5/ngx-cookie.js");
+/* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
+
+
 
 
 
@@ -585,6 +598,7 @@ var AppModule = /** @class */ (function () {
                 _rules_rules_component__WEBPACK_IMPORTED_MODULE_12__["RulesComponent"],
                 _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__["SymgraphComponent"],
                 _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__["SymgraphdailyComponent"],
+                _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_18__["NavbarComponent"],
             ],
             imports: [
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__["NgbModule"].forRoot(),
@@ -592,12 +606,121 @@ var AppModule = /** @class */ (function () {
                 _app_routing_module__WEBPACK_IMPORTED_MODULE_4__["AppRoutingModule"],
                 _angular_forms__WEBPACK_IMPORTED_MODULE_7__["FormsModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_8__["HttpClientModule"],
+                ngx_cookie__WEBPACK_IMPORTED_MODULE_17__["CookieModule"].forRoot(),
             ],
-            providers: [_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"]],
+            providers: [_user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"], _api_service__WEBPACK_IMPORTED_MODULE_3__["ApiService"], _auth_guard__WEBPACK_IMPORTED_MODULE_16__["AuthGuard"]],
             bootstrap: [_app_component__WEBPACK_IMPORTED_MODULE_5__["AppComponent"]]
         })
     ], AppModule);
     return AppModule;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/auth.guard.ts":
+/*!*******************************!*\
+  !*** ./src/app/auth.guard.ts ***!
+  \*******************************/
+/*! exports provided: AuthGuard */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthGuard", function() { return AuthGuard; });
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _authservice_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./authservice.service */ "./src/app/authservice.service.ts");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AuthGuard = /** @class */ (function () {
+    function AuthGuard(auth, route) {
+        this.auth = auth;
+        this.route = route;
+    }
+    AuthGuard.prototype.canActivate = function (route, status) {
+        var isAuthed = this.auth.isAuthed();
+        if (!isAuthed) {
+            this.route.navigate(['/']);
+        }
+        return isAuthed;
+    };
+    AuthGuard = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])(),
+        __metadata("design:paramtypes", [_authservice_service__WEBPACK_IMPORTED_MODULE_2__["AuthService"], _angular_router__WEBPACK_IMPORTED_MODULE_0__["Router"]])
+    ], AuthGuard);
+    return AuthGuard;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/authservice.service.ts":
+/*!****************************************!*\
+  !*** ./src/app/authservice.service.ts ***!
+  \****************************************/
+/*! exports provided: AuthService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AuthService", function() { return AuthService; });
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var ngx_cookie__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ngx-cookie */ "./node_modules/ngx-cookie/fesm5/ngx-cookie.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var AuthService = /** @class */ (function () {
+    function AuthService(http, cookieService) {
+        this.http = http;
+        this.cookieService = cookieService;
+        this.base = '/api/auth';
+    }
+    AuthService.prototype.login = function (user) {
+        return this.http.post(this.base + "/login", user);
+    };
+    AuthService.prototype.register = function (user) {
+        return this.http.post(this.base + "/register", user);
+    };
+    AuthService.prototype.logout = function () {
+        return this.http.delete(this.base + "/logout");
+    };
+    AuthService.prototype.isAuthed = function () {
+        var expired = parseInt(this.cookieService.get('expiration'), 10);
+        var userID = this.cookieService.get('userID');
+        var session = this.cookieService.get('session');
+        console.log('session:', session);
+        return session && expired && userID && expired > Date.now();
+    };
+    AuthService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_1__["Injectable"])({
+            providedIn: 'root',
+        }),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_0__["HttpClient"], ngx_cookie__WEBPACK_IMPORTED_MODULE_2__["CookieService"]])
+    ], AuthService);
+    return AuthService;
 }());
 
 
@@ -611,7 +734,7 @@ var AppModule = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.lister{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:600px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\ntr td button{\r\n    background-color:blue;\r\n    color:yellow;\r\n}\r\n.launcher{\r\n    height:800px;\r\n    width:500px;\r\n    display:inline-block;\r\n    }\r\n    "
+module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.lister{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:600px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\ntr td button{\r\n    background-color:#007bff!important;\r\n    color:yellow;\r\n}\r\n.launcher{\r\n    height:800px;\r\n    width:600px;\r\n    display:inline-block;\r\n    }\r\n    "
 
 /***/ }),
 
@@ -622,7 +745,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}\r\ntr:nth-child(even) {\r\n  
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Histories</h1>\n<div class=\"launcher\">\n<fieldset>\n<legend>Stock Graphs</legend>\n  <div *ngIf=\"mysymbols.length > 0\">\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n</div>\n</fieldset>\n</div>\n<div class=\"lister\">\n    <fieldset>\n        <legend>Daily Winners and Losers</legend>\n        <div *ngIf=\"mygnldata.length > 0\">\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n              <th>Daily Total</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td><button (click)=\"showDailygnl(hl.date)\"title=\"Click on the date to see all the stocks in your portfolios activity for the day\">{{hl.date}}</button></td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n            <td>{{hl.totaldailygnl|currency}}</td>\n          </tr>\n          </table>\n  </div>\n</fieldset>\n<div *ngIf=\"showingdaily\">\n<fieldset>\n    <legend>Daily Totals - {{dtsdate}} </legend>\n<div *ngFor=\"let daily of dts\">\n   \n    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>\n</div>\n</fieldset>\n</div>\n\n</div>"
+module.exports = "<app-navbar></app-navbar>\n<h1>Stock Histories</h1>\n<div class=\"launcher\">\n<fieldset class=\"border p-2\" >\n<legend class=\"w-auto\" >Stock Graphs</legend>\n  <div *ngIf=\"mysymbols.length > 0\">\n<h2>These are the stock symbols  in your portfolio, click on one to display the history</h2>\n<h2>Daily Gains And Losses Data</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n\n<a [routerLink]=\"['/history/'] +symbol\" >{{symbol}}</a>\n\n</div>\n\n\n<h2>Stock Daily Closing Values</h2>\n<div *ngFor=\"let symbol of mysymbols\">\n<a [routerLink]=\"['/history/daily/'] +symbol\" >{{symbol}}</a>\n</div>\n</div>\n</fieldset>\n</div>\n<div class=\"lister\">\n    <fieldset class=\"border p-2\" >\n        <legend class=\"w-auto\" >Daily Winners and Losers</legend>\n        <div *ngIf=\"mygnldata.length > 0\">\n        <table>\n            <tr>\n              <th>Date</th>\n              <th>Biggest Gainer</th> \n              <th>Value</th>\n              <th>Biggest Loser</th>\n              <th>Value</th>\n              <th>Daily Total</th>\n            </tr>\n       \n        <tr *ngFor=\"let hl of dailyhlarray\">\n            <td><button (click)=\"showDailygnl(hl.date)\"title=\"Click on the date to see all the stocks in your portfolios activity for the day\">{{hl.date}}</button></td>\n            <td>{{hl.symhigh}} </td> \n            <td>{{hl.symhighvalue|currency}}</td>\n            <td>{{hl.symlow}}</td>\n            <td>{{hl.symlowvalue|currency}}</td>\n            <td>{{hl.totaldailygnl|currency}}</td>\n          </tr>\n          </table>\n  </div>\n</fieldset>\n<div *ngIf=\"showingdaily\">\n<fieldset class=\"border p-2\" >\n    <legend class=\"w-auto\"  >Daily Totals - {{dtsdate}} </legend>\n<div *ngFor=\"let daily of dts\">\n   \n    <h4>{{daily.symbol}} : {{daily.netgnl|currency}} </h4>\n</div>\n</fieldset>\n</div>\n\n</div>"
 
 /***/ }),
 
@@ -757,7 +880,7 @@ var HistoryComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\r\na{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:500px;\r\n    height:800px;\r\n    overflow: scroll;\r\n}\r\n.searchbuy{\r\nheight:800px;\r\nwidth:500px;\r\ndisplay:inline-block;\r\n}\r\ntr td button{\r\n    background-color:blue;\r\n    color:yellow;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.tooltip {\r\n    display:none;\r\n    background:transparent url(/media/img/tooltip/black_arrow.png);\r\n    font-size:12px;\r\n    height:70px;\r\n    width:160px;\r\n    padding:25px;\r\n    color:#eee;\r\n  }"
+module.exports = "\r\na{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    background-color: black;\r\n    color:yellow;\r\n    display: inline-block;\r\n    vertical-align: top;\r\n    width:600px;\r\n    height:800px;\r\n    overflow: scroll;\r\n    margin-top:5px;\r\n}\r\n.searchbuy{\r\nheight:800px;\r\nwidth:600px;\r\ndisplay:inline-block;\r\nmargin:5px 5px 5px 5px;\r\n}\r\ntr td button{\r\n    background-color: #007bff!important;\r\n    color:yellow;\r\n}\r\ntr:nth-child(even) {\r\n    background-color: #dddddd;\r\n    color:black;\r\n}\r\n.tooltip {\r\n    display:none;\r\n    background:transparent url(/media/img/tooltip/black_arrow.png);\r\n    font-size:12px;\r\n    height:70px;\r\n    width:160px;\r\n    padding:25px;\r\n    color:#eee;\r\n  }\r\nh1 {\r\n    display: block;\r\n    font-size: 2em;\r\n    -webkit-margin-before: 0.67em;\r\n    -webkit-margin-after: 0.67em;\r\n    -webkit-margin-start: 0px;\r\n    -webkit-margin-end: 0px;\r\n    font-weight: bold;\r\n}\r\nh2 {\r\n    display: block;\r\n    font-size: 1.5em;\r\n    -webkit-margin-before: 0.83em;\r\n    -webkit-margin-after: 0.83em;\r\n    -webkit-margin-start: 0px;\r\n    -webkit-margin-end: 0px;\r\n    font-weight: bold;\r\n}\r\n.backdrop{ \r\n\r\n    background-color:rgba(0,0,0,0.6);  \r\n    position:fixed;\r\n    top:0;\r\n    left:0;\r\n    width:100%;\r\n    height:100vh;\r\n    }\r\nth{\r\n    font-size: .75rem;\r\n   \r\n}\r\n"
 
 /***/ }),
 
@@ -768,7 +891,7 @@ module.exports = "\r\na{\r\n    margin-left:10px;\r\n}\r\n.info{\r\n    backgrou
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "\n\n<div class=\"wrapper\">\n<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n\n<div class=\"searchbuy\">\n    <fieldset>\n        <legend>Stock Store</legend>\n  <form (submit)=\"findSym($event,findsym)\" #findsym='ngForm'>\n  <input title=\"Enter a company's keyword(Apple,Microsoft,Tesla) to find its stock symbol\"type =\"text\" name=\"sym\" id=\"symid\" [ngModel]=\"symid\" required #sym=\"ngModel\">\n  <button>Find Symbol</button>\n  \n  \n  </form>\n<div *ngIf=\"searching\">\n<div *ngIf=\"notfound\">Symbol not found!</div>\n<div *ngIf=\"!notfound\">\n<div *ngFor=\"let sym of sym_data\">\n  <h3>Symbol: {{sym.symbol}}</h3>\n  <h4>Security Name: {{sym.securityName}}</h4>\n  <button (click) = \"symSubmit(sym.symbol,sym.securityName)\">Find Current Buy Price?</button>\n</div>\n</div>\n\n</div>\n\n<div *ngIf=\"buystock\">\n <fieldset>\n   <legend>Purchase Stock</legend>\n  <form (submit)=\"buyStock($event,buyForm)\" #buyForm='ngForm'>\n  <p>Symbol: {{stock.symbol}}</p>\n  <p>Buyprice: {{stock.buyprice|currency}}</p>\n  <p>Amount: <input type=\"number\" name=\"amount\" id=\"amountid\"\n    [ngModel]=\"stock.amount\"\n    required\n    #amount=\"ngModel\">\n    <input type=\"hidden\" name=\"sname\" id=\"secnameid\" value=\"{{secname}}\" [ngModel]=\"secname\" #sname=\"ngModel\">\n    <input type=\"hidden\" name=\"buyprice\" id=\"priceid\" value=\"{{stock.buyprice}}\" [ngModel]=\"stock.buyprice\" #buyprice=\"ngModel\">\n    <input type=\"hidden\" name=\"symbol\" id=\"symbolid\"  value=\"{{stock.symbol}}\" [ngModel]=\"stock.symbol\" #symbol=\"ngModel\">\n    <button>Buy This Stock</button>\n  </form>\n  </fieldset>\n</div>\n</fieldset>\n</div>\n<div  class=\"info\">\n<div class=\"listing\" *ngIf=\"!sellingstock\">\n  <fieldset>\n    <legend>Personal Info</legend>\n     \n    <h1>Hello, {{currentuser.firstname}} </h1>\n    <h2>Money Available: {{currentuser.money|currency}}</h2>\n    <h2>Total Profit/Score: {{currentuser.score|currency}}</h2>\n   <div *ngIf=\"mystocks.length !==0\">\n    <H2>My Current Stocks:</H2>\n    <table>\n        <tr>\n          <th>Stock Symbol</th>\n          <th>Securities Name</th> \n          <th>Shares/Amount</th>\n          <th>BuyPrice</th>\n          <th>Actions</th>\n\n        </tr>\n    <tr *ngFor=\"let mystock of mystocks\">\n    \n      <td>{{mystock.symbol}}</td>\n      <td>{{mystock.sname}} </td> \n      <td>{{mystock.amount}}</td>\n      <td>{{mystock.buyprice|currency}}</td>\n      <td><button (click)=\"onSell(mystock)\">Sell</button></td>\n    </tr>\n    </table>\n   </div>\n  </fieldset>\n    </div>\n   \n   \n   \n   \n    <div class=\"selling\" *ngIf=\"sellingstock\">\n        <fieldset>\n            <legend>Selling Stock</legend>\n      <form #sellForm='ngForm' (submit)=\"sellmyStock($event,sellForm)\">\n         <h2>Stock: {{sellstock.symbol}}</h2>\n         <h4>Buy Price: {{sellstock.buyprice}}</h4>\n         <h4>Selling Price: {{stock.buyprice}} </h4>\n         <h4>Number of Shares: {{sellstock.amount}}</h4>\n         <input type=\"number\" name=\"amount\" id=\"amountid\" [ngModel]=\"amount\" #amount=\"ngModel\" placeholder=\"{{sellstock.amount}}\">\n         <input type=\"hidden\" value=\"{{sellstock.symbol}}\" name=\"symbol\" [ngModel]=\"sellstock.symbol\" #symbol=\"ngModel\">\n         <input type=\"hidden\" value=\"{{stock.buyprice}}\" name=\"sellprice\" [ngModel]=\"stock.buyprice\" #sellprice=\"ngModel\">\n         <input type=\"hidden\" value=\"{{sellstock._id}}\" name=\"id\" [ngModel]=\"sellstock._id\" #id=\"ngModel\">\n         <Button>Sell Stock</Button>\n      \n        </form>\n      </fieldset>\n        </div>\n      </div>\n  </div>\n \n"
+module.exports = "\n\n<div class=\"wrapper\">\n  <app-navbar></app-navbar>\n<div class=\"searchbuy\">\n    <fieldset class=\"border p-2\"  >\n        <legend class=\"w-auto\"  >Stock Store</legend>\n  <form (submit)=\"findSym($event,findsym)\" #findsym='ngForm'>\n  <input title=\"Enter a company's keyword(Apple,Microsoft,Tesla) to find its stock symbol\"type =\"text\" name=\"sym\" id=\"symid\" [ngModel]=\"symid\" required #sym=\"ngModel\">\n  <button>Find Symbol</button>\n  \n  \n  </form>\n<div *ngIf=\"searching\">\n<div *ngIf=\"notfound\">Symbol not found!</div>\n<div *ngIf=\"!notfound\">\n<div *ngFor=\"let sym of sym_data\">\n  <h3>Symbol: {{sym.symbol}}</h3>\n  <h4>Security Name: {{sym.securityName}}</h4>\n  <button (click) = \"symSubmit(sym.symbol,sym.securityName)\">Find Current Buy Price?</button>\n</div>\n</div>\n\n</div>\n\n<div *ngIf=\"buystock\">\n <fieldset class=\"border p-2\" >\n   <legend class=\"w-auto\" >Purchase Stock</legend>\n  <form (submit)=\"buyStock($event,buyForm)\" #buyForm='ngForm' >\n  <p>Symbol: {{stock.symbol}}</p>\n  <p>Buyprice: {{stock.buyprice|currency}}</p>\n  <p>Amount: <input type=\"number\" name=\"amount\" id=\"amountid\"\n    [ngModel]=\"stock.amount\"\n    required\n    #amount=\"ngModel\">\n    <input type=\"hidden\" name=\"sname\" id=\"secnameid\" value=\"{{secname}}\" [ngModel]=\"secname\" #sname=\"ngModel\">\n    <input type=\"hidden\" name=\"buyprice\" id=\"priceid\" value=\"{{stock.buyprice}}\" [ngModel]=\"stock.buyprice\" #buyprice=\"ngModel\">\n    <input type=\"hidden\" name=\"symbol\" id=\"symbolid\"  value=\"{{stock.symbol}}\" [ngModel]=\"stock.symbol\" #symbol=\"ngModel\">\n    <button>Buy This Stock</button>\n  </form>\n  </fieldset>\n</div>\n</fieldset>\n</div>\n<div  class=\"info\">\n<div class=\"listing\" *ngIf=\"!sellingstock\">\n  <fieldset class=\"border p-2\" >\n    <legend class=\"w-auto\" >Personal Info</legend>\n     \n    <h1>Hello, {{currentuser.firstname}} </h1>\n    <h2>Money Available: {{currentuser.money|currency}}</h2>\n    <h2>Total Profit/Score: {{currentuser.score|currency}}</h2>\n   <div *ngIf=\"mystocks.length !==0\">\n    <H2>My Current Stocks:</H2>\n    <table>\n        <tr>\n          <th>Symbol</th>\n          <th>Securities Name</th> \n          <th>Shares/Amount</th>\n          <th>BuyPrice</th>\n          <th>Actions</th>\n\n        </tr>\n    <tr *ngFor=\"let mystock of mystocks\">\n    \n      <td>{{mystock.symbol}}</td>\n      <td>{{mystock.sname}} </td> \n      <td>{{mystock.amount}}</td>\n      <td>{{mystock.buyprice|currency}}</td>\n      <td><button (click)=\"onSell(mystock)\">Sell</button></td>\n    </tr>\n    </table>\n   </div>\n  </fieldset>\n    </div>\n   \n   \n   \n   \n    <div class=\"selling\" *ngIf=\"sellingstock\">\n        <fieldset class=\"border p-2\" >\n            <legend class=\"w-auto\" >Selling Stock</legend>\n      <form #sellForm='ngForm' (submit)=\"sellmyStock($event,sellForm)\">\n         <h2>Stock: {{sellstock.symbol}}</h2>\n         <h4>Buy Price: {{sellstock.buyprice}}</h4>\n         <h4>Selling Price: {{stock.buyprice}} </h4>\n         <h4>Number of Shares: {{sellstock.amount}}</h4>\n         <input type=\"number\" name=\"amount\" id=\"amountid\" [ngModel]=\"amount\" #amount=\"ngModel\" placeholder=\"{{sellstock.amount}}\">\n         <input type=\"hidden\" value=\"{{sellstock.symbol}}\" name=\"symbol\" [ngModel]=\"sellstock.symbol\" #symbol=\"ngModel\">\n         <input type=\"hidden\" value=\"{{stock.buyprice}}\" name=\"sellprice\" [ngModel]=\"stock.buyprice\" #sellprice=\"ngModel\">\n         <input type=\"hidden\" value=\"{{sellstock._id}}\" name=\"id\" [ngModel]=\"sellstock._id\" #id=\"ngModel\">\n         <Button>Sell Stock</Button>\n      \n        </form>\n      </fieldset>\n        </div>\n      </div>\n  </div>\n  <div class=\"backdrop\" [ngStyle]=\"{'display':displaybuy}\"></div>\n  <div class=\"modal\" tabindex=\"-1\" role=\"dialog\" id=\"buyModal\" [ngStyle]=\"{'display':displaybuy}\" >\n    <div class=\"modal-dialog\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Buying Stock</h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"(click)=\"onCloseHandledbuy()\" >\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n          <p>{{msgstr}}</p>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-primary\"(click)=\"buyConfirm()\" >Yes</button>\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"  (click)=\"onCloseHandledbuy()\" >No</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"backdrop\" [ngStyle]=\"{'display':displayiv}\"></div>\n  <div class=\"modal\" tabindex=\"-1\" role=\"dialog\" id=\"ivModal\" [ngStyle]=\"{'display':displayiv}\" >\n    <div class=\"modal-dialog\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Validation Error</h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"(click)=\"onCloseHandlediv()\" >\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n          <p>{{invalidstr}}</p>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"  (click)=\"onCloseHandlediv()\" >Ok</button>\n        </div>\n      </div>\n    </div>\n  </div>\n\n  <div class=\"backdrop\" [ngStyle]=\"{'display':displaysell}\"></div>\n  <div class=\"modal\" tabindex=\"-1\" role=\"dialog\" id=\"sellModal\" [ngStyle]=\"{'display':displaysell}\" >\n    <div class=\"modal-dialog\" role=\"document\">\n      <div class=\"modal-content\">\n        <div class=\"modal-header\">\n          <h5 class=\"modal-title\">Selling Stock</h5>\n          <button type=\"button\" class=\"close\" data-dismiss=\"modal\" aria-label=\"Close\"(click)=\"onCloseHandledsell()\" >\n            <span aria-hidden=\"true\">&times;</span>\n          </button>\n        </div>\n        <div class=\"modal-body\">\n          <p>{{msgstr}}</p>\n        </div>\n        <div class=\"modal-footer\">\n          <button type=\"button\" class=\"btn btn-primary\"(click)=\"sellConfirm()\" >Yes</button>\n          <button type=\"button\" class=\"btn btn-secondary\" data-dismiss=\"modal\"  (click)=\"onCloseHandledsell()\" >No</button>\n        </div>\n      </div>\n    </div>\n  </div>"
 
 /***/ }),
 
@@ -786,6 +909,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../api.service */ "./src/app/api.service.ts");
 /* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
 /* harmony import */ var _models_stock__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../models/stock */ "./src/app/models/stock.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -800,10 +924,23 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var HomepageComponent = /** @class */ (function () {
-    function HomepageComponent(apiService, userService) {
+    function HomepageComponent(apiService, userService, router) {
         this.apiService = apiService;
         this.userService = userService;
+        this.router = router;
+        this.selldata = {};
+        this.moneygotten = 0;
+        this.invalidstr = '';
+        this.totalspent = 0;
+        this.bfdata = {};
+        this.confirmbuy = false;
+        this.confirmsell = false;
+        this.displaysell = "none";
+        this.displaybuy = "none";
+        this.displayiv = "none";
+        this.msgstr = '';
         this.current_price = 0;
         this.responseError = false;
         this.validResponse = false;
@@ -874,57 +1011,32 @@ var HomepageComponent = /** @class */ (function () {
     };
     //method that buys a stock
     HomepageComponent.prototype.buyStock = function (event, form) {
-        var _this = this;
         event.preventDefault();
         console.log("THISUSER,", this.currentuser);
         console.log("Buying Stock", form.value);
-        var totalspent = form.value.amount * form.value.buyprice;
-        console.log("Amountspent:", totalspent);
+        this.totalspent = form.value.amount * form.value.buyprice;
+        console.log("Amountspent:", this.totalspent);
         if (form.value.amount < 1) {
-            alert("Amount cannot be less than 1 share, asshat");
+            // alert("Amount cannot be less than 1 share, asshat")
+            this.invalidstr = "Amount cannot be less than 1 share, asshat";
+            this.displayiv = "block";
             this.buystock = false;
             return;
         }
-        if (this.currentuser.money < totalspent) {
-            alert("Cannot spend more money than you have!");
+        if (this.currentuser.money < this.totalspent) {
+            this.invalidstr = "Insufficient Funds, You cannot spend more than you have";
+            this.displayiv = "block";
             this.buystock = false;
             return;
         }
-        var msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
-        var confirm = window.confirm(msgstr);
-        console.log("CONFIRM?", confirm);
+        this.msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + this.totalspent;
+        //enable your buy stock modal on the form, change display to something more specific
+        this.displaybuy = "block";
+        this.bfdata = form.value;
+        //let confirm = window.confirm(this.msgstr);
+        console.log("CONFIRM?", this.confirmbuy);
+        console.log("ADATA", form.value);
         //did we say yes?
-        if (confirm) {
-            console.log("user confirmed yes");
-            var observe = this.apiService.buyStock(form.value);
-            observe.subscribe(function (response) {
-                //adjust the users current "money" holdings  
-                console.log("response", response);
-                var o = _this.userService.changeMoney(-totalspent);
-                o.subscribe(function (response) {
-                    console.log(response);
-                    //get updating user stats
-                    var o2 = _this.userService.getUser();
-                    o2.subscribe(function (response) {
-                        _this.currentuser = response;
-                        console.log("CurrentUser:", _this.currentuser);
-                        //get users updating stock listing
-                        var o3 = _this.apiService.getusersStock();
-                        o3.subscribe(function (response) {
-                            _this.mystocks = response;
-                            console.log("all my stox", _this.mystocks);
-                            _this.buystock = false;
-                        });
-                    });
-                });
-            }, function (Error) {
-                console.log("ERROR", Error);
-            });
-        }
-        else {
-            //we cancelled
-            this.buystock = false;
-        }
     };
     HomepageComponent.prototype.getSymbols = function () {
         var _this = this;
@@ -1085,44 +1197,109 @@ var HomepageComponent = /** @class */ (function () {
         var _this = this;
         event.preventDefault();
         console.log("SELLING thIS STOCK:", form.value);
+        if (form.value.amount < 0) {
+            // alert("Amount cannot be less than 1 share, asshat")
+            this.invalidstr = "Amount cannot be less than 1 share, asshat";
+            this.displayiv = "block";
+            this.sellingstock = false;
+            return;
+        }
         if (form.value.amount > this.sellstock.amount) {
-            alert("Cannot Sell more stock than you have!");
+            // alert("Cannot Sell more stock than you have!")
+            this.invalidstr = "Cannot Sell more stock than you have!";
+            this.displayiv = "block";
             this.sellingstock = false;
             return;
         }
         //prompt the user and ask the amount they would like to sell
-        var moneygotten = form.value.amount * form.value.sellprice;
-        var msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + moneygotten;
-        var confirm = window.confirm(msgstr);
-        if (confirm) {
-            //sell the stock
-            form.value.amount = -form.value.amount;
-            var o = this.apiService.sellStock(form.value);
-            o.subscribe(function (response) {
-                console.log("we sold stock:", response);
-                //adjust "money" holdings
-                var o2 = _this.userService.changeMoney(moneygotten);
-                o2.subscribe(function (response) {
-                    console.log(response);
-                    //get updating user stats
-                    var o3 = _this.userService.getUser();
-                    o3.subscribe(function (response) {
-                        _this.currentuser = response;
-                        console.log("CurrentUser:", _this.currentuser);
-                        //get users updating stock listing
-                        var o4 = _this.apiService.getusersStock();
-                        o4.subscribe(function (response) {
-                            _this.mystocks = response;
-                            console.log("all my stox", _this.mystocks);
-                            _this.sellingstock = false;
-                        });
-                    });
-                });
-            });
-        }
+        this.moneygotten = form.value.amount * form.value.sellprice;
+        this.msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + this.moneygotten;
+        this.displaysell = "block";
+        //let confirm = window.confirm(msgstr);
+        form.value.amount = -form.value.amount;
+        this.selldata = form.value;
+        if (0) { var o; }
         else {
             this.sellingstock = false;
         }
+    };
+    HomepageComponent.prototype.logOff = function (event) {
+        var _this = this;
+        console.log("LOGOFF CLICKED!");
+        event.preventDefault();
+        var ob = this.userService.removeSessionid();
+        ob.subscribe(function (response) {
+            console.log('returned', response);
+            _this.router.navigate(['/']);
+        }, function (Error) { console.log("Error", Error); });
+    };
+    HomepageComponent.prototype.onCloseHandlediv = function () {
+        this.displayiv = "none";
+    };
+    HomepageComponent.prototype.onCloseHandledbuy = function () {
+        this.displaybuy = "none";
+        this.confirmbuy = false;
+        this.buystock = false;
+    };
+    HomepageComponent.prototype.onCloseHandledsell = function () {
+        this.displaysell = "none";
+        this.sellingstock = false;
+    };
+    HomepageComponent.prototype.buyConfirm = function () {
+        var _this = this;
+        this.confirmbuy = true;
+        this.displaybuy = "none";
+        console.log("GDATA", this.bfdata);
+        var observe = this.apiService.buyStock(this.bfdata);
+        observe.subscribe(function (response) {
+            //adjust the users current "money" holdings  
+            console.log("response", response);
+            var o = _this.userService.changeMoney(-_this.totalspent);
+            o.subscribe(function (response) {
+                console.log(response);
+                //get updating user stats
+                var o2 = _this.userService.getUser();
+                o2.subscribe(function (response) {
+                    _this.currentuser = response;
+                    console.log("CurrentUser:", _this.currentuser);
+                    //get users updating stock listing
+                    var o3 = _this.apiService.getusersStock();
+                    o3.subscribe(function (response) {
+                        _this.mystocks = response;
+                        console.log("all my stox", _this.mystocks);
+                        _this.buystock = false;
+                    });
+                });
+            });
+        }, function (Error) {
+            console.log("ERROR", Error);
+        });
+    };
+    HomepageComponent.prototype.sellConfirm = function () {
+        var _this = this;
+        var o = this.apiService.sellStock(this.selldata);
+        o.subscribe(function (response) {
+            console.log("we sold stock:", response);
+            //adjust "money" holdings
+            var o2 = _this.userService.changeMoney(_this.moneygotten);
+            o2.subscribe(function (response) {
+                console.log(response);
+                //get updating user stats
+                var o3 = _this.userService.getUser();
+                o3.subscribe(function (response) {
+                    _this.currentuser = response;
+                    console.log("CurrentUser:", _this.currentuser);
+                    //get users updating stock listing
+                    var o4 = _this.apiService.getusersStock();
+                    o4.subscribe(function (response) {
+                        _this.mystocks = response;
+                        console.log("all my stox", _this.mystocks);
+                        _this.displaysell = "none";
+                        _this.sellingstock = false;
+                    });
+                });
+            });
+        });
     };
     HomepageComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
@@ -1132,7 +1309,8 @@ var HomepageComponent = /** @class */ (function () {
             encapsulation: _angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewEncapsulation"].None
         }),
         __metadata("design:paramtypes", [_api_service__WEBPACK_IMPORTED_MODULE_1__["ApiService"],
-            _user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+            _user_service__WEBPACK_IMPORTED_MODULE_2__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_4__["Router"]])
     ], HomepageComponent);
     return HomepageComponent;
 }());
@@ -1148,7 +1326,7 @@ var HomepageComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".profile{\r\n    height:150px;\r\n    width:500px;\r\n    border: 2px solid black;\r\n}\r\n.rank{\r\n    width:20px;\r\n    height:100px;\r\n    display:inline-block;\r\n}\r\n.score{\r\n    width:100px;\r\n    height:100px;\r\n    display:inline-block;\r\n    vertical-align:top;\r\n    margin-left:250px;\r\n}\r\n.leaders{\r\n    width: 700px;\r\n    height: 500px;\r\n    overflow: scroll;\r\n}\r\na{\r\n    margin-left:10px;\r\n}"
+module.exports = ".profile{\r\n    height:150px;\r\n    width:500px;\r\n    border: 2px solid black;\r\n}\r\n.rank{\r\n    width:20px;\r\n    height:100px;\r\n    display:inline-block;\r\n}\r\n.score{\r\n    width:100px;\r\n    height:100px;\r\n    display:inline-block;\r\n    vertical-align:top;\r\n    margin-left:250px;\r\n}\r\n.leaders{\r\n    width: 700px;\r\n    height: 500px;\r\n    overflow: scroll;\r\n    margin-left:50px;\r\n}\r\na{\r\n    margin-left:10px;\r\n}\r\n.head{\r\n    margin-left:50px;\r\n}"
 
 /***/ }),
 
@@ -1159,7 +1337,7 @@ module.exports = ".profile{\r\n    height:150px;\r\n    width:500px;\r\n    bord
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Rankings</h1>\n<div class=\"leaders\">\n<div *ngFor=\"let user of users;let i = index\" [attr.data-index]=\"i\">\n<div class=\"profile\">\n<div class=\"rank\"> <h1>{{i+1}} {{user.firstname}}</h1> </div>\n  \n<div class=\"score\"> <h2>  Score:{{user.score|currency}}</h2> </div>\n  <h3> {{user.email}} </h3>  \n</div>\n</div>\n</div>"
+module.exports = "<app-navbar></app-navbar>\n<h1 class=\"head\">Rankings</h1>\n<div class=\"leaders\">\n<div *ngFor=\"let user of users;let i = index\" [attr.data-index]=\"i\">\n<div class=\"profile\">\n<div class=\"rank\"> <h2>{{i+1}} {{user.firstname}}</h2> </div>\n  \n<div class=\"score\"> <h3>  Score:{{user.score|currency}}</h3> </div>\n  <h4> {{user.email}} </h4>  \n</div>\n</div>\n</div>"
 
 /***/ }),
 
@@ -1225,7 +1403,7 @@ var LeaderboardComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = ".login input, button{\r\n    display: block;\r\n}\r\n.login {\r\n    height:200px;\r\n    width: 200px;\r\n    display:inline-block;\r\n}\r\n.register {\r\n    height:300px;\r\n    width: 300px;\r\n    display:inline-block;\r\n\r\nvertical-align:top;\r\n}\r\n.register input, button{\r\n    display: block;\r\n}"
+module.exports = ".login input, button{\r\n    display: block;\r\n}\r\n.login {\r\n    height:400px;\r\n    width: 400px;\r\n    display:inline-block;\r\n}\r\n.register {\r\n    height:300px;\r\n    width: 300px;\r\n    display:inline-block;\r\n\r\nvertical-align:top;\r\n}\r\n.register input, button{\r\n    display: block;\r\n}\r\n"
 
 /***/ }),
 
@@ -1236,7 +1414,7 @@ module.exports = ".login input, button{\r\n    display: block;\r\n}\r\n.login {\
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div *ngIf=\"!regFlag\" class=\"login\">\n  <fieldset>\n      <legend>FunnyMoney Login</legend>\n    <form (submit)=\"onLogin($event,logForm)\"  #logForm='ngForm'  >\n      <label for=\"emailidl\"> Email</label><input type=\"text\" name=\"email\" id=\"emailidl\"\n               [ngModel]=\"emailidl\" \n              required\n              #email=\"ngModel\">\n              <label for=\"passwdl\"> Password</label><input type=\"password\" name=\"password\" id=\"passwdl\"\n              [ngModel]=\"passwdl\" \n              required\n              #password=\"ngModel\">\n              <div *ngIf=\"badlogin\" class=\"errormsg\" >Invalid Credentials</div>\n              <div *ngIf=\"badlogin_5times\" class=\"errormsg\" >Max Attempts to login exceeded, username locked out for 1 hour</div>\n              <button>Login</button>\n      </form>\n     <p> Dont have an Account?<a href (click)=\"regUser($event)\">Register</a></p>\n   </fieldset>\n    </div>\n     <div *ngIf=\"regFlag\" class=\"register\">\n    <fieldset>\n        <legend>FunnyMoney Registration</legend>\n        <form  (submit)=\"onReg($event,regForm)\"  #regForm='ngForm'>\n          <label for=\"fname\"> First Name</label><input type=\"text\" name=\"firstname\" id=\"fname\"\n          [ngModel]=\"fname\" \n          required\n          #firstname=\"ngModel\">\n         <label for=\"lname\"> Last Name</label><input type=\"text\" name=\"lastname\" id=\"lname\"\n         [ngModel]=\"lname\" \n         required\n         #lastname=\"ngModel\">\n          <label for=\"emailid\"> Email</label><input type=\"text\" name=\"email\" id=\"emailid\"\n           [ngModel]=\"emailid\" \n          required\n          #email=\"ngModel\">\n          <label for=\"password\"> Password</label><input type=\"password\" name=\"password\" id=\"passwd\"\n          [ngModel]=\"passwd\" \n          required\n          #password=\"ngModel\">\n          <div *ngIf=\"passShort\" class=\"errormsg\" >Password must contain at least 8 characters</div>\n          <label for=\"cpassword\">Confirmation Password</label><input type=\"password\" name=\"cpassword\" id=\"cpasswd\"\n          [ngModel]=\"cpasswd\" \n          required\n          #cpassword=\"ngModel\">\n          <div *ngIf=\"passmm\" class=\"errormsg\" >Password must match conformation password</div>\n          <button [disabled]=\"!regForm.valid\">Register</button>\n          </form>\n      </fieldset>\n        </div> "
+module.exports = "<div *ngIf=\"!regFlag\" class=\"login\">\n  \n  <fieldset class=\"border p-2\" >\n      <legend class=\"w-auto\" >FunnyMoney Login</legend>\n    <form (submit)=\"onLogin($event,logForm)\"  #logForm='ngForm'  >\n      <label for=\"emailidl\"> Email</label><input type=\"text\" name=\"email\" id=\"emailidl\"\n               [ngModel]=\"emailidl\" \n              required\n              #email=\"ngModel\">\n              <label for=\"passwdl\"> Password</label><input type=\"password\" name=\"password\" id=\"passwdl\"\n              [ngModel]=\"passwdl\" \n              required\n              #password=\"ngModel\">\n              <div *ngIf=\"badlogin\" class=\"errormsg\" >Invalid Credentials</div>\n              <div *ngIf=\"badlogin_5times\" class=\"errormsg\" >Max Attempts to login exceeded, username locked out for 1 hour</div>\n              <button>Login</button>\n      </form>\n     <p> Dont have an Account?<a href (click)=\"regUser($event)\">Register</a></p>\n  \n    </fieldset>\n    \n    </div>\n     <div *ngIf=\"regFlag\" class=\"register\">\n    <fieldset class=\"border p-2\" >\n        <legend class=\"w-auto\" >FunnyMoney Registration</legend>\n        <form  (submit)=\"onReg($event,regForm)\"  #regForm='ngForm'>\n          <label for=\"fname\"> First Name</label><input type=\"text\" name=\"firstname\" id=\"fname\"\n          [ngModel]=\"fname\" \n          required\n          #firstname=\"ngModel\">\n         <label for=\"lname\"> Last Name</label><input type=\"text\" name=\"lastname\" id=\"lname\"\n         [ngModel]=\"lname\" \n         required\n         #lastname=\"ngModel\">\n          <label for=\"emailid\"> Email</label><input type=\"text\" name=\"email\" id=\"emailid\"\n           [ngModel]=\"emailid\" \n          required\n          #email=\"ngModel\">\n          <label for=\"password\"> Password</label><input type=\"password\" name=\"password\" id=\"passwd\"\n          [ngModel]=\"passwd\" \n          required\n          #password=\"ngModel\">\n          <div *ngIf=\"passShort\" class=\"errormsg\" >Password must contain at least 8 characters</div>\n          <label for=\"cpassword\">Confirmation Password</label><input type=\"password\" name=\"cpassword\" id=\"cpasswd\"\n          [ngModel]=\"cpasswd\" \n          required\n          #cpassword=\"ngModel\">\n          <div *ngIf=\"passmm\" class=\"errormsg\" >Password must match conformation password</div>\n          <button [disabled]=\"!regForm.valid\">Register</button>\n          </form>\n      </fieldset>\n        </div> "
 
 /***/ }),
 
@@ -1400,6 +1578,86 @@ var Stock = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/navbar/navbar.component.css":
+/*!*********************************************!*\
+  !*** ./src/app/navbar/navbar.component.css ***!
+  \*********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = ".jumbotron{\r\n    background-color:black;\r\n  color: yellow;\r\n  margin-bottom: 0px;\r\n}"
+
+/***/ }),
+
+/***/ "./src/app/navbar/navbar.component.html":
+/*!**********************************************!*\
+  !*** ./src/app/navbar/navbar.component.html ***!
+  \**********************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"jumbotron jumbotron-fluid\">\n  <div class=\"container\">\n   \n    <h1 class=\"display-7\"> FunnyMoney</h1>\n    <p class=\"lead\">\"If its not my money, and its not your money, it must be FunnyMoney!</p> \n  </div>\n</div>\n<nav class=\"navbar navbar-expand-lg navbar-dark bg-primary\">\n  <ul class=\"navbar-nav\">\n    \n      <a class=\"nav-link\" routerLink=\"/home\">Home</a>\n    \n    <li class=\"divider\"></li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" routerLink=\"/rules\">Rules</a>\n    </li>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" routerLink=\"/leaderboard\">Leaderboard</a>\n    </li>\n      <a class=\"nav-link\" routerLink=\"/history\">History</a>\n    <li class=\"nav-item\">\n      <a class=\"nav-link\" (click)=\"logOff($event)\">Logout</a>\n    </li>\n  </ul>\n</nav>"
+
+/***/ }),
+
+/***/ "./src/app/navbar/navbar.component.ts":
+/*!********************************************!*\
+  !*** ./src/app/navbar/navbar.component.ts ***!
+  \********************************************/
+/*! exports provided: NavbarComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NavbarComponent", function() { return NavbarComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _user_service__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user.service */ "./src/app/user.service.ts");
+/* harmony import */ var _angular_router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @angular/router */ "./node_modules/@angular/router/fesm5/router.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var NavbarComponent = /** @class */ (function () {
+    function NavbarComponent(userService, router) {
+        this.userService = userService;
+        this.router = router;
+    }
+    NavbarComponent.prototype.ngOnInit = function () {
+    };
+    NavbarComponent.prototype.logOff = function (event) {
+        var _this = this;
+        console.log("LOGOFF CLICKED!");
+        event.preventDefault();
+        var ob = this.userService.removeSessionid();
+        ob.subscribe(function (response) {
+            console.log('returned', response);
+            _this.router.navigate(['/']);
+        }, function (Error) { console.log("Error", Error); });
+    };
+    NavbarComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-navbar',
+            template: __webpack_require__(/*! ./navbar.component.html */ "./src/app/navbar/navbar.component.html"),
+            styles: [__webpack_require__(/*! ./navbar.component.css */ "./src/app/navbar/navbar.component.css")]
+        }),
+        __metadata("design:paramtypes", [_user_service__WEBPACK_IMPORTED_MODULE_1__["UserService"],
+            _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
+    ], NavbarComponent);
+    return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/rules/rules.component.css":
 /*!*******************************************!*\
   !*** ./src/app/rules/rules.component.css ***!
@@ -1418,7 +1676,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Welcome to Funny Money</h1>\n<h4>The Name of the Game is \"FunnyMoney\"..... Well is it a game? is it a stock Buying/Selling Simulator? Is it Stock Trading \"Training Wheels?\" Yes, Yes and Yes...</h4>\n\n<h4>You get $100,000 to invest in any NASDAQ/NYSE trading symbols you wish. At the end of each trading day (4pm EST), the gains and losses of your stock portfolio are tallied up and your \"Score\" is the diffference between what you bought the stock at, and what it closed at.</h4> \n\n<h4>FunnyMoney uses Actual, Realtime, Stock Buying/Selling Prices, The only difference is the money is not real, so you invest strictly for fun/entertainment purposes. </h4>\n<h4>You may sell your current stock at any time to increase your money holdings and purchase any other stock you wish. </h4>\n<h4>Check the \"LeaderBoard\" section to see how you rank next to your stock trading peers. </h4>\n<h4>Check the \"History\" section to see the historical behavior of each of the stocks in your portfolio, Including graphs of your daily gains and losses per stock, and daily closing graphs. </h4> \n<h4>Disclaimer: FunnyMoney \"Money\" has no actual value and the game is played strictly for entertainment purposes. </h4>\n<h2>To get started, click \"Proceed to Home\", to go to your homepage, then simply begin by entering a company keyword(i.e. \"Microsoft or \"Apple\") in the \"find symbol\" Input box</h2>\n<button (click)=\"goHome()\">Proceed to Home</button>"
+module.exports = "<app-navbar></app-navbar>\n<h1>Welcome to Funny Money</h1>\n<h4>The Name of the Game is \"FunnyMoney\"..... Well is it a game? is it a stock Buying/Selling Simulator? Is it Stock Trading \"Training Wheels?\" Yes, Yes and Yes...</h4>\n\n<h4>You get $100,000 to invest in any NASDAQ/NYSE trading symbols you wish. At the end of each trading day (4pm EST), the gains and losses of your stock portfolio are tallied up and your \"Score\" is the diffference between what you bought the stock at, and what it closed at.</h4> \n\n<h4>FunnyMoney uses Actual, Realtime, Stock Buying/Selling Prices, The only difference is the money is not real, so you invest strictly for fun/entertainment purposes. </h4>\n<h4>You may sell your current stock at any time to increase your money holdings and purchase any other stock you wish. </h4>\n<h4>Check the \"LeaderBoard\" section to see how you rank next to your stock trading peers. </h4>\n<h4>Check the \"History\" section to see the historical behavior of each of the stocks in your portfolio, Including graphs of your daily gains and losses per stock, and daily closing graphs. </h4> \n<h4>Disclaimer: FunnyMoney \"Money\" has no actual value and the game is played strictly for entertainment purposes. </h4>\n<h2>To get started, click \"Proceed to Home\", to go to your homepage, then simply begin by entering a company keyword(i.e. \"Microsoft or \"Apple\") in the \"find symbol\" Input box</h2>\n<button (click)=\"goHome()\">Proceed to Home</button>"
 
 /***/ }),
 
@@ -1487,7 +1745,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Daily Stock Gains and losses values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>\n"
+module.exports = "<app-navbar></app-navbar>\n<h1>Daily Stock Gains and losses values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>\n"
 
 /***/ }),
 
@@ -1613,7 +1871,7 @@ module.exports = "a{\r\n    margin-left:10px;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<p><a [routerLink]=\"['/home']\">Home</a>   <a [routerLink]=\"['/rules']\">Rules</a><a [routerLink]=\"['/leaderboard']\">Leaderboard</a>  <a [routerLink]=\"['/history']\">Stock History</a>    <a href (click)=\"logOff($event)\">Log Off</a>  </p>\n<h1>Stock Daily Closing Values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>"
+module.exports = "<app-navbar></app-navbar>\n<h1>Stock Daily Closing Values</h1>\n<h1>History for {{currentsymbol}}</h1>\n<h2>Amount of shares: {{stockbm.amount}}</h2>\n<h2>Buyprice: {{stockbm.buyprice|currency}}</h2>\n<div *ngIf=\"chart\">\n<canvas id=\"canvas\">{{ chart }}</canvas>\n\n</div>"
 
 /***/ }),
 

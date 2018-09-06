@@ -7,7 +7,7 @@
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "/* You can add global styles to this file, and also import other style files */\n /* @import \"~bootstrap/dist/css/bootstrap.css\"; */\n"
+module.exports = " @import url('https://unpkg.com/bootstrap@4.1.1/dist/css/bootstrap.min.css'); "
 
 /***/ }),
 

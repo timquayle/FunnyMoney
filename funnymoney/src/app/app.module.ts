@@ -14,6 +14,9 @@ import { RulesComponent } from './rules/rules.component';
 import { SymgraphComponent } from './symgraph/symgraph.component';
 import { SymgraphdailyComponent } from './symgraphdaily/symgraphdaily.component';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {AuthGuard} from './auth.guard';
+import { CookieModule } from 'ngx-cookie';
+import { NavbarComponent } from './navbar/navbar.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -24,6 +27,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     RulesComponent,
     SymgraphComponent,
     SymgraphdailyComponent,
+    NavbarComponent,
   ],
   imports: [
     NgbModule.forRoot(),
@@ -31,8 +35,9 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    CookieModule.forRoot(),
   ],
-  providers: [UserService,ApiService],
+  providers: [UserService,ApiService, AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

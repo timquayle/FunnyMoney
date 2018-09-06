@@ -7,6 +7,7 @@ import {Stock} from '../models/stock';
 import * as $ from 'jquery';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {  ViewEncapsulation } from '@angular/core';
+import {Router} from "@angular/router";
 declare var jQuery: any;
 @Component({
   selector: 'app-homepage',
@@ -16,7 +17,18 @@ declare var jQuery: any;
 })
 
 export class HomepageComponent implements OnInit {
- current_price: number = 0;
+ selldata={};
+ moneygotten = 0;
+  invalidstr = '';
+  totalspent = 0;
+  bfdata ={};
+  confirmbuy=false;
+  confirmsell=false;
+  displaysell="none";
+  displaybuy="none";
+  displayiv="none";
+  msgstr = '';
+  current_price: number = 0;
   responseError=false;
   validResponse=false;
   symbol: string = "";
@@ -36,6 +48,7 @@ export class HomepageComponent implements OnInit {
   secname='';
   listingstock=true;
   sellingstock=false;
+  
   sellstock = {symbol: '',
   buyprice: 0,
   amount: 0,
@@ -43,8 +56,9 @@ export class HomepageComponent implements OnInit {
 
   };
  constructor(private apiService: ApiService,
-private userService: UserService) { }
-
+private userService: UserService,
+private router: Router) { }
+  
   ngOnInit() {
    
         
@@ -105,61 +119,32 @@ this.buystock=true;
 //method that buys a stock
 buyStock(event: Event,form: NgForm){
   event.preventDefault();
- console.log("THISUSER,",this.currentuser);
+  console.log("THISUSER,",this.currentuser);
   console.log("Buying Stock",form.value)
- let totalspent = form.value.amount*form.value.buyprice;
-  console.log("Amountspent:",totalspent);
+ this.totalspent = form.value.amount*form.value.buyprice;
+  console.log("Amountspent:",this.totalspent);
   if(form.value.amount < 1){
-    alert("Amount cannot be less than 1 share, asshat")
-    this.buystock=false;
+   // alert("Amount cannot be less than 1 share, asshat")
+  this.invalidstr = "Amount cannot be less than 1 share, asshat";
+  this.displayiv="block"; 
+  this.buystock=false;
     return;
   }
-  if(this.currentuser.money < totalspent) {
-  alert("Cannot spend more money than you have!");
+  if(this.currentuser.money < this.totalspent) {
+    this.invalidstr = "Insufficient Funds, You cannot spend more than you have";
+    this.displayiv="block"; 
   this.buystock=false;
   return;
 }
-  let msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + totalspent;
- let confirm = window.confirm(msgstr);
-console.log("CONFIRM?",confirm);
- //did we say yes?
- if(confirm) {
- console.log("user confirmed yes")
-  let observe = this.apiService.buyStock(form.value);
-  observe.subscribe(
-    (response) =>{
-                 //adjust the users current "money" holdings  
-                 console.log("response",response ) 
-                  let o = this.userService.changeMoney(-totalspent);
-                  o.subscribe(
-                  (response) => {console.log(response)
-                  //get updating user stats
-                  let o2 = this.userService.getUser();
-                  o2.subscribe(
-                    (response) => {this.currentuser = response;
-                   console.log("CurrentUser:",this.currentuser)
-                   //get users updating stock listing
-                   let o3 = this.apiService.getusersStock();
-                   o3.subscribe( (response) =>{ this.mystocks = response;
-                     console.log("all my stox",this.mystocks);   
-                   this.buystock=false;
-                    })
-                    })
-                  })
-                  
-    
-    
-    },
-    (Error) => {
-      console.log("ERROR",Error);
-    }
-  ) 
- }
-
- else {
-//we cancelled
-this.buystock=false;
- }
+ this.msgstr = "Buy " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + this.totalspent;
+ //enable your buy stock modal on the form, change display to something more specific
+ this.displaybuy="block"; 
+ this.bfdata=form.value;
+ //let confirm = window.confirm(this.msgstr);
+console.log("CONFIRM?",this.confirmbuy);
+console.log("ADATA",form.value);
+//did we say yes?
+ 
 
 
 }
@@ -363,24 +348,36 @@ this.responseError=true;
 sellmyStock(event,form: NgForm){
   event.preventDefault();
 console.log("SELLING thIS STOCK:",form.value);
+if(form.value.amount < 0){
+  // alert("Amount cannot be less than 1 share, asshat")
+ this.invalidstr = "Amount cannot be less than 1 share, asshat";
+ this.displayiv="block"; 
+ this.sellingstock=false;
+   return;
+ }
 if(form.value.amount > this.sellstock.amount){
-  alert("Cannot Sell more stock than you have!")
+ // alert("Cannot Sell more stock than you have!")
+  this.invalidstr = "Cannot Sell more stock than you have!";
+   this.displayiv="block"; 
   this.sellingstock=false;
   return;
 }
 //prompt the user and ask the amount they would like to sell
-let moneygotten = form.value.amount*form.value.sellprice;
-let msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + moneygotten;
-let confirm = window.confirm(msgstr);
-if(confirm) {
+this.moneygotten = form.value.amount*form.value.sellprice;
+ this.msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + this.moneygotten;
+ this.displaysell="block";
+ //let confirm = window.confirm(msgstr);
+ form.value.amount=-form.value.amount;
+ this.selldata=form.value;
+ if(0) {
 //sell the stock
-form.value.amount=-form.value.amount;
+
 let o = this.apiService.sellStock(form.value);
 o.subscribe(
 (response) => { console.log("we sold stock:",response);
 
 //adjust "money" holdings
-let o2 = this.userService.changeMoney(moneygotten);
+let o2 = this.userService.changeMoney(this.moneygotten);
                   o2.subscribe(
                   (response) => {console.log(response)
                   //get updating user stats
@@ -409,4 +406,103 @@ else{
 
 
 }
+logOff(event: Event){
+  console.log("LOGOFF CLICKED!")
+  event.preventDefault();
+  let ob =  this.userService.removeSessionid()
+   ob.subscribe(
+   (response) =>{
+
+       console.log('returned',response);
+       this.router.navigate(['/']); 
+      },
+
+   (Error) =>
+    { console.log("Error",Error);  }
+
+
+   )
+    
+    
+
+}
+onCloseHandlediv(){
+  this.displayiv="none";
+}
+onCloseHandledbuy(){
+  this.displaybuy="none";
+  this.confirmbuy=false;
+  this.buystock=false;
+}
+onCloseHandledsell(){
+  this.displaysell="none";
+  this.sellingstock=false;
+  
+}
+buyConfirm(){
+  this.confirmbuy=true;
+  this.displaybuy="none";
+  console.log("GDATA",this.bfdata);
+ let observe = this.apiService.buyStock(this.bfdata);
+  observe.subscribe(
+    (response) =>{
+                 //adjust the users current "money" holdings  
+                 console.log("response",response ) 
+                  let o = this.userService.changeMoney(-this.totalspent);
+                  o.subscribe(
+                  (response) => {console.log(response)
+                  //get updating user stats
+                  let o2 = this.userService.getUser();
+                  o2.subscribe(
+                    (response) => {this.currentuser = response;
+                   console.log("CurrentUser:",this.currentuser)
+                   //get users updating stock listing
+                   let o3 = this.apiService.getusersStock();
+                   o3.subscribe( (response) =>{ this.mystocks = response;
+                     console.log("all my stox",this.mystocks);   
+                   this.buystock=false;
+                   
+                  })
+                    })
+                  })
+                  
+    
+    
+    },
+    (Error) => {
+      console.log("ERROR",Error);
+    }
+  ) 
+} 
+sellConfirm(){
+let o = this.apiService.sellStock(this.selldata);
+o.subscribe(
+(response) => { console.log("we sold stock:",response);
+
+//adjust "money" holdings
+let o2 = this.userService.changeMoney(this.moneygotten);
+                  o2.subscribe(
+                  (response) => {console.log(response)
+                  //get updating user stats
+                  let o3 = this.userService.getUser();
+                  o3.subscribe(
+                    (response) => {this.currentuser = response;
+                   console.log("CurrentUser:",this.currentuser)
+                   //get users updating stock listing
+                   let o4 = this.apiService.getusersStock();
+                   o4.subscribe( (response) =>{ this.mystocks = response;
+                     console.log("all my stox",this.mystocks);   
+                     this.displaysell="none";
+                     this.sellingstock=false;
+                    })
+                    })
+                  })
+
+
+
+})
+
+}
+
+
 }

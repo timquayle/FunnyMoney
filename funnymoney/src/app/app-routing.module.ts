@@ -7,10 +7,16 @@ import { HistoryComponent } from './history/history.component';
 import {RulesComponent} from './rules/rules.component';
 import {SymgraphComponent} from './symgraph/symgraph.component';
 import {SymgraphdailyComponent} from './symgraphdaily/symgraphdaily.component';
-const routes: Routes = [{ path: '', component:  LogregComponent }, {path: 'home', component: HomepageComponent},
-{ path: 'leaderboard', component: LeaderboardComponent },{ path: 'history', component: HistoryComponent },
-{ path: 'rules', component: RulesComponent },{ path: 'history/:symbol', component: SymgraphComponent },
-{ path: 'history/daily/:symbol', component: SymgraphdailyComponent }];
+import {AuthGuard} from './auth.guard';
+const routes: Routes = [{ path: '', component:  LogregComponent }, 
+{path: 'home', component: HomepageComponent,
+canActivate: [AuthGuard]
+},
+{ path: 'leaderboard', component: LeaderboardComponent,canActivate: [AuthGuard] },
+{ path: 'history', component: HistoryComponent , canActivate: [AuthGuard]},
+{ path: 'rules', component: RulesComponent,canActivate: [AuthGuard] },
+{ path: 'history/:symbol', component: SymgraphComponent,canActivate: [AuthGuard]},
+{ path: 'history/daily/:symbol', component: SymgraphdailyComponent, canActivate: [AuthGuard]}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
