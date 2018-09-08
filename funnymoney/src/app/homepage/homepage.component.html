@@ -2,7 +2,8 @@
 
 <div class="wrapper">
   <app-navbar></app-navbar>
-<div class="searchbuy">
+
+  <div class="searchbuy">
     <fieldset class="border p-2"  >
         <legend class="w-auto"  >Stock Store</legend>
   <form (submit)="findSym($event,findsym)" #findsym='ngForm'>
@@ -29,7 +30,7 @@
   <form (submit)="buyStock($event,buyForm)" #buyForm='ngForm' >
   <p>Symbol: {{stock.symbol}}</p>
   <p>Buyprice: {{stock.buyprice|currency}}</p>
-  <p>Amount: <input type="number" name="amount" id="amountid"
+  <p>Amount: <input  name="amount" id="amountid" type="number"
     [ngModel]="stock.amount"
     required
     #amount="ngModel">
@@ -41,7 +42,9 @@
   </fieldset>
 </div>
 </fieldset>
+
 </div>
+
 <div  class="info">
 <div class="listing" *ngIf="!sellingstock">
   <fieldset class="border p-2" >
@@ -85,7 +88,7 @@
          <h4>Buy Price: {{sellstock.buyprice}}</h4>
          <h4>Selling Price: {{stock.buyprice}} </h4>
          <h4>Number of Shares: {{sellstock.amount}}</h4>
-         <input type="number" name="amount" id="amountid" [ngModel]="amount" #amount="ngModel" placeholder="{{sellstock.amount}}">
+         <input type="number" min="1" name="amount" id="amountid" [ngModel]="amount" #amount="ngModel" placeholder="{{sellstock.amount}}">
          <input type="hidden" value="{{sellstock.symbol}}" name="symbol" [ngModel]="sellstock.symbol" #symbol="ngModel">
          <input type="hidden" value="{{stock.buyprice}}" name="sellprice" [ngModel]="stock.buyprice" #sellprice="ngModel">
          <input type="hidden" value="{{sellstock._id}}" name="id" [ngModel]="sellstock._id" #id="ngModel">
@@ -95,6 +98,7 @@
       </fieldset>
         </div>
       </div>
+      
   </div>
   <div class="backdrop" [ngStyle]="{'display':displaybuy}"></div>
   <div class="modal" tabindex="-1" role="dialog" id="buyModal" [ngStyle]="{'display':displaybuy}" >

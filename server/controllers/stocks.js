@@ -124,7 +124,16 @@ getsymStockdata(req, res){
 }, 
 
     buyStock(req, res) {
-    const stock =  new Stocks({symbol: req.body.symbol, amount: req.body.amount, buyprice: req.body.buyprice, userid: req.session.userid, sname: req.body.sname })
+    Stocks.findOne({$and: [ {'userid':  req.session.userid},{ 'symbol': req.body.symbol }  ] })
+    .then(symboldata =>{ //we found data, so lets findoneandupdate
+                        if(symboldata){ Stocks.findOneAndUpdate({$and: [ {'userid':  req.session.userid},{ 'symbol': req.body.symbol }  ] }, {$inc: {amount: req.body.amount}})
+                        
+                .then(stock =>  {console.log("SD",stock); console.log("WE ALREADY OWN THAT STOCK"); res.json(stock) })
+                .catch(error => { console.log('error!:',error); res.json(error); })
+    }
+    else { //we don't own the stock, make a new stock instance and create it in our db
+    
+      const stock =  new Stocks({symbol: req.body.symbol, amount: req.body.amount, buyprice: req.body.buyprice, userid: req.session.userid, sname: req.body.sname })
        console.log('buying stock in controller', stock);
      Stocks.create(stock)
           .then(stock => res.json(stock))
@@ -134,8 +143,14 @@ getsymStockdata(req, res){
             );
     
             res.status(500).json(errors);
+          
           });
-},
+        }
+        })
+     // .catch(res.json('error!'))
+      
+      
+      },
 sellStock: function(req,res) {
   Stocks.findOneAndUpdate({_id: req.body.id }, {$inc: {amount: req.body.amount}}, function (err, stock) {
  if (err) {console.log("updateError",err);  res.json(err);     }

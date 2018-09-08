@@ -13,7 +13,6 @@ app.use(session({
   secret: 'lakdj32akd',
   resave: false,
   saveUninitialized: true,
-  cookie: { maxAge: 60000000 },
   rolling: true,
   'store': new MongoStore({
     mongoose_connection: 'funnymoney',
@@ -24,7 +23,7 @@ app.use(session({
  cookie:     {
    secure: false,
    httpOnly: false,
-   maxAge: 360000,
+   maxAge: 36000000,
  }         
 
 })) 

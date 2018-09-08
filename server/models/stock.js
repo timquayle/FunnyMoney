@@ -4,7 +4,7 @@ const StocksSchema = new mongoose.Schema({
     
 symbol: {type: String, required: [true, "Title is required"]},
 buyprice: {type: Number, required: [true, "Price is required"]},
-amount: {type: Number, required: [true, "Description is required"]},
+amount: {type: Number, required: [true, "Description is required"] ,minimum: 1},
 userid: {type: String, required: [true, "user id is required"]},
 sname: {type: String}
 },{timestamps: true })
