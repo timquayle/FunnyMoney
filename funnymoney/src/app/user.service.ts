@@ -39,7 +39,7 @@ export class UserService {
      // return this.http.get('/notsget');
     }
     passLog(user) :any { 
-      console.log("INSERVICE", user)
+ //     console.log("INSERVICE", user)
         return this.http.post('/postlog', user);
        // return this.http.get('/notsget');
       }
