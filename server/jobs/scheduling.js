@@ -17,7 +17,7 @@ const apikey= "614CAY3S4WQVWX15";
 //│    └──────────────────── minute (0 - 59)
 //└───────────────────────── second (0 - 59, OPTIONAL)
 
-//scheduled job, will run at 4:30pm PST and get all daily closing values for all stocks in the system, and store them in dailytotal table
+//scheduled job, will run at 3pm PST and get all daily closing values for all stocks in the system, and store them in dailytotal table
 module.exports = function(app) {
   dailyclosing = schedule.scheduleJob('0 15 * * 1-5', function(){
 //1 get all the symbols in the system
@@ -27,11 +27,13 @@ Stocks.distinct("symbol")
              //2 get the closing values for each symbol in our system  
                  all_symbols.forEach( 
                     (element) => {
-                    console.log("CURRENTSTOCK",element);
+                     let felement =  filtsym(element);
+                     console.log("FILTERED:",felement);
+                      console.log("CURRENTSTOCK",element);
             //3 get the current value of each symbol in our system
- url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + element + '&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
+ url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=' + felement + '&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
              //get our api data using a retry function, because well.. they suck..but its free.
- getSymvalue(url,10,500,10000,element,function(err, data) {
+ getSymvalue(url,10,500,10000,felement,function(err, data) {
                     if(err){
                       console.log("we have error!",err)
                     }
@@ -56,7 +58,7 @@ Stocks.distinct("symbol")
 })
 
 })
-//scheduled job, will run at 5pm PST and calculate all users daily net/gains and losses and store them in dailyGnL table
+//scheduled job, will run at 3:30 PST and calculate all users daily net/gains and losses and store them in dailyGnL table
 const gnlcalc = schedule.scheduleJob('30 15 * * 1-5', function(){
   url = 'https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=T&interval=1min&aoutputsize=compact&apikey=' + apikey + '&datatype=json';
   getSymvalue(url,10,500,10000,"T",function(err, data) {
@@ -234,7 +236,22 @@ function getSymvalue(url,retryTimes, retryDelay,retry2Delay, element, callback) 
     // start our first request
     run();
     }
-
+   function filtsym(symbol) {
+      let symlength=symbol.length;
+       let fsym='';
+       console.log("length:",symlength);
+       //filter "." in our symbol
+       for(let y=0;y<symlength;y++){
+         if(symbol[y]==="."){
+         null;
+         }
+         else {
+         fsym+=symbol[y];
+         console.log("JJ",y);
+         }
+       }
+      return fsym;
+      }
 
 }
 

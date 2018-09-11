@@ -88,7 +88,7 @@
          <h4>Buy Price: {{sellstock.buyprice}}</h4>
          <h4>Selling Price: {{stock.buyprice}} </h4>
          <h4>Number of Shares: {{sellstock.amount}}</h4>
-         <input type="number" min="1" name="amount" id="amountid" [ngModel]="amount" #amount="ngModel" placeholder="{{sellstock.amount}}">
+         <input type="number" min="1" name="amount" id="amountid" [ngModel]="amount" #amount="ngModel">
          <input type="hidden" value="{{sellstock.symbol}}" name="symbol" [ngModel]="sellstock.symbol" #symbol="ngModel">
          <input type="hidden" value="{{stock.buyprice}}" name="sellprice" [ngModel]="stock.buyprice" #sellprice="ngModel">
          <input type="hidden" value="{{sellstock._id}}" name="id" [ngModel]="sellstock._id" #id="ngModel">

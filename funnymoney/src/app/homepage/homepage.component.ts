@@ -85,8 +85,13 @@ this.secname = secname;
 console.log("Secname:",this.secname);
  this.searching=false;
 this.buystock=true;
- console.log("FV",symbol)
-  let observe = this.apiService.getSymbol(symbol);
+ 
+ //console.log("length:",symlength);
+ //filter "." in our symbol
+ let fsym=this.filtsym(symbol);
+console.log("FILTSYM",fsym);
+console.log("FV",symbol)
+  let observe = this.apiService.getSymbol(fsym);
   observe.subscribe(
   (response) => {
     this.stock.symbol = symbol;
@@ -318,7 +323,9 @@ console.log("CURRENT STOCK in question:",mystock);
 //get the stock in questions current buy price
 this.sellingstock=true;
 this.sellstock=mystock;
-let observe = this.apiService.getSymbol(mystock.symbol);
+let fsym=this.filtsym(mystock.symbol);
+console.log("FILTERED",fsym)
+let observe = this.apiService.getSymbol(fsym);
 observe.subscribe(
 (response) => {
   this.stock.symbol = mystock.symbol;
@@ -362,6 +369,13 @@ if(form.value.amount > this.sellstock.amount){
   this.sellingstock=false;
   return;
 }
+ if(isNaN(form.value.amount))
+ {
+  this.invalidstr = "Invalid Number!";
+  this.displayiv="block"; 
+ this.sellingstock=false;
+ return;
+ }
 //prompt the user and ask the amount they would like to sell
 this.moneygotten = form.value.amount*form.value.sellprice;
  this.msgstr = "Sell " + form.value.amount + " Shares of " + form.value.symbol + " Stock for: $" + this.moneygotten;
@@ -503,6 +517,20 @@ let o2 = this.userService.changeMoney(this.moneygotten);
 })
 
 }
-
-
+filtsym(symbol) {
+let symlength=symbol.length;
+ let fsym='';
+ console.log("length:",symlength);
+ //filter "." in our symbol
+ for(let y=0;y<symlength;y++){
+   if(symbol[y]==="."){
+   null;
+   }
+   else {
+   fsym+=symbol[y];
+   console.log("JJ",y);
+   }
+ }
+return fsym;
+}
 }
