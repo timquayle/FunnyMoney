@@ -22,11 +22,11 @@ ngOnInit() {
   }
   onLogin(event: Event,form: NgForm){
     event.preventDefault();
-    console.log("VALUES ",form.value);
+   // console.log("VALUES ",form.value);
     let observer = this.userService.passLog(form.value);
     observer.subscribe(
     (response) =>{
-      console.log("response",response);
+    //  console.log("response",response);
       if(response==="valid"){
         console.log("VALLLLLID!")
         this.badlogin=false;
@@ -61,7 +61,7 @@ ngOnInit() {
 
   onReg(event: Event,form: NgForm){
     event.preventDefault();
-    console.log("VALUES ",form.value);
+  //  console.log("VALUES ",form.value);
     if(form.value.password.length < 8){
       console.log("password too short!")
       this.passShort=true;
