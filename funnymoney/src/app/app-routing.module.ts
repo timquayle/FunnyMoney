@@ -8,6 +8,7 @@ import {RulesComponent} from './rules/rules.component';
 import {SymgraphComponent} from './symgraph/symgraph.component';
 import {SymgraphdailyComponent} from './symgraphdaily/symgraphdaily.component';
 import {AuthGuard} from './auth.guard';
+import {NotfoundComponent} from './notfound/notfound.component';
 const routes: Routes = [{ path: '', component:  LogregComponent }, 
 {path: 'home', component: HomepageComponent,
 canActivate: [AuthGuard]
@@ -16,8 +17,9 @@ canActivate: [AuthGuard]
 { path: 'history', component: HistoryComponent , canActivate: [AuthGuard]},
 { path: 'rules', component: RulesComponent,canActivate: [AuthGuard] },
 { path: 'history/:symbol', component: SymgraphComponent,canActivate: [AuthGuard]},
-{ path: 'history/daily/:symbol', component: SymgraphdailyComponent, canActivate: [AuthGuard]}];
-
+{ path: 'history/daily/:symbol', component: SymgraphdailyComponent, canActivate: [AuthGuard]},
+{path: '404', component: NotfoundComponent},
+ {path: '**', redirectTo: '/404'}];
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]

@@ -431,12 +431,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./symgraph/symgraph.component */ "./src/app/symgraph/symgraph.component.ts");
 /* harmony import */ var _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./symgraphdaily/symgraphdaily.component */ "./src/app/symgraphdaily/symgraphdaily.component.ts");
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
+/* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -455,7 +457,9 @@ var routes = [{ path: '', component: _logreg_logreg_component__WEBPACK_IMPORTED_
     { path: 'history', component: _history_history_component__WEBPACK_IMPORTED_MODULE_5__["HistoryComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
     { path: 'rules', component: _rules_rules_component__WEBPACK_IMPORTED_MODULE_6__["RulesComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
     { path: 'history/:symbol', component: _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_7__["SymgraphComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
-    { path: 'history/daily/:symbol', component: _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__["SymgraphdailyComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] }];
+    { path: 'history/daily/:symbol', component: _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_8__["SymgraphdailyComponent"], canActivate: [_auth_guard__WEBPACK_IMPORTED_MODULE_9__["AuthGuard"]] },
+    { path: '404', component: _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_10__["NotfoundComponent"] },
+    { path: '**', redirectTo: '/404' }];
 var AppRoutingModule = /** @class */ (function () {
     function AppRoutingModule() {
     }
@@ -559,12 +563,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _auth_guard__WEBPACK_IMPORTED_MODULE_16__ = __webpack_require__(/*! ./auth.guard */ "./src/app/auth.guard.ts");
 /* harmony import */ var ngx_cookie__WEBPACK_IMPORTED_MODULE_17__ = __webpack_require__(/*! ngx-cookie */ "./node_modules/ngx-cookie/fesm5/ngx-cookie.js");
 /* harmony import */ var _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_18__ = __webpack_require__(/*! ./navbar/navbar.component */ "./src/app/navbar/navbar.component.ts");
+/* harmony import */ var _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_19__ = __webpack_require__(/*! ./notfound/notfound.component */ "./src/app/notfound/notfound.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -599,6 +605,7 @@ var AppModule = /** @class */ (function () {
                 _symgraph_symgraph_component__WEBPACK_IMPORTED_MODULE_13__["SymgraphComponent"],
                 _symgraphdaily_symgraphdaily_component__WEBPACK_IMPORTED_MODULE_14__["SymgraphdailyComponent"],
                 _navbar_navbar_component__WEBPACK_IMPORTED_MODULE_18__["NavbarComponent"],
+                _notfound_notfound_component__WEBPACK_IMPORTED_MODULE_19__["NotfoundComponent"],
             ],
             imports: [
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_15__["NgbModule"].forRoot(),
@@ -1486,10 +1493,10 @@ var LogregComponent = /** @class */ (function () {
     LogregComponent.prototype.onLogin = function (event, form) {
         var _this = this;
         event.preventDefault();
-        console.log("VALUES ", form.value);
+        // console.log("VALUES ",form.value);
         var observer = this.userService.passLog(form.value);
         observer.subscribe(function (response) {
-            console.log("response", response);
+            //  console.log("response",response);
             if (response === "valid") {
                 console.log("VALLLLLID!");
                 _this.badlogin = false;
@@ -1521,7 +1528,7 @@ var LogregComponent = /** @class */ (function () {
     LogregComponent.prototype.onReg = function (event, form) {
         var _this = this;
         event.preventDefault();
-        console.log("VALUES ", form.value);
+        //  console.log("VALUES ",form.value);
         if (form.value.password.length < 8) {
             console.log("password too short!");
             this.passShort = true;
@@ -1680,6 +1687,69 @@ var NavbarComponent = /** @class */ (function () {
             _angular_router__WEBPACK_IMPORTED_MODULE_2__["Router"]])
     ], NavbarComponent);
     return NavbarComponent;
+}());
+
+
+
+/***/ }),
+
+/***/ "./src/app/notfound/notfound.component.css":
+/*!*************************************************!*\
+  !*** ./src/app/notfound/notfound.component.css ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "img{\r\n    height: 336px;\r\n    width: 600px;\r\n} \r\n\r\n.page{\r\nheight:700px;\r\nwidth:700px;\r\nmargin: 0px auto;\r\n}\r\n"
+
+/***/ }),
+
+/***/ "./src/app/notfound/notfound.component.html":
+/*!**************************************************!*\
+  !*** ./src/app/notfound/notfound.component.html ***!
+  \**************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = "<div class=\"page\">\n<img src=\"./assets/bubface.jpg\" alt=\"404 Page not Fizzound\">\n<h1>404 - Page not Found</h1>\n<h1>Thats GRE-HE-HE-HEASY!</h1>\n\n</div>"
+
+/***/ }),
+
+/***/ "./src/app/notfound/notfound.component.ts":
+/*!************************************************!*\
+  !*** ./src/app/notfound/notfound.component.ts ***!
+  \************************************************/
+/*! exports provided: NotfoundComponent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NotfoundComponent", function() { return NotfoundComponent; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+var NotfoundComponent = /** @class */ (function () {
+    function NotfoundComponent() {
+    }
+    NotfoundComponent.prototype.ngOnInit = function () {
+    };
+    NotfoundComponent = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
+            selector: 'app-notfound',
+            template: __webpack_require__(/*! ./notfound.component.html */ "./src/app/notfound/notfound.component.html"),
+            styles: [__webpack_require__(/*! ./notfound.component.css */ "./src/app/notfound/notfound.component.css")]
+        }),
+        __metadata("design:paramtypes", [])
+    ], NotfoundComponent);
+    return NotfoundComponent;
 }());
 
 
@@ -2064,7 +2134,7 @@ var UserService = /** @class */ (function () {
         // return this.http.get('/notsget');
     };
     UserService.prototype.passLog = function (user) {
-        console.log("INSERVICE", user);
+        //     console.log("INSERVICE", user)
         return this.http.post('/postlog', user);
         // return this.http.get('/notsget');
     };

@@ -17,6 +17,7 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {AuthGuard} from './auth.guard';
 import { CookieModule } from 'ngx-cookie';
 import { NavbarComponent } from './navbar/navbar.component';
+import { NotfoundComponent } from './notfound/notfound.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -28,6 +29,7 @@ import { NavbarComponent } from './navbar/navbar.component';
     SymgraphComponent,
     SymgraphdailyComponent,
     NavbarComponent,
+    NotfoundComponent,
   ],
   imports: [
     NgbModule.forRoot(),
